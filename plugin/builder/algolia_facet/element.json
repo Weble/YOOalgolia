@@ -1,0 +1,263 @@
+{
+    "@import": "./element.php",
+    "name": "algolia_facet",
+    "title": "Facet Filter",
+    "group": "Algolia",
+    "icon": "${url:svg/icon.svg}",
+    "iconSmall": "${url:svg/iconSmall.svg}",
+    "element": true,
+    "width": 500,
+    "defaults": {
+        "content_more": "Show More",
+        "content_less": "Show Less",
+        "icon": "close",
+        "button_style": "default",
+        "icon_align": "right",
+        "show_more": "1",
+        "show_more_limit": "50",
+        "title_element": "h6"
+    },
+    "templates": {
+        "render": "./templates/template.php",
+        "content": "./templates/content.php"
+    },
+    "fields": {
+        "title": {
+            "label": "Facet Title",
+            "type": "text"
+        },
+        "title_element": {
+            "label": "HTML Element",
+            "description": "Choose one of the HTML elements to fit the semantic structure.",
+            "type": "select",
+            "options": {
+                "h1": "h1",
+                "h2": "h2",
+                "h3": "h3",
+                "h4": "h4",
+                "h5": "h5",
+                "h6": "h6",
+                "div": "div"
+            }
+        },
+        "title_style": {
+            "label": "Style",
+            "description": "Headline styles differ in font size and font family.",
+            "type": "select",
+            "options": {
+                "None": "",
+                "2X-Large": "heading-2xlarge",
+                "X-Large": "heading-xlarge",
+                "Large": "heading-large",
+                "Medium": "heading-medium",
+                "Small": "heading-small",
+                "H1": "h1",
+                "H2": "h2",
+                "H3": "h3",
+                "H4": "h4",
+                "H5": "h5",
+                "H6": "h6"
+            }
+        },
+        "title_decoration": {
+            "label": "Decoration",
+            "description": "Decorate the headline with a divider, bullet or a line that is vertically centered to the heading.",
+            "type": "select",
+            "options": {
+                "None": "",
+                "Divider": "divider",
+                "Bullet": "bullet",
+                "Line": "line"
+            }
+        },
+        "title_font_family": {
+            "label": "Font Family",
+            "description": "Select an alternative font family.",
+            "type": "select",
+            "options": {
+                "None": "",
+                "Default": "default",
+                "Primary": "primary",
+                "Secondary": "secondary",
+                "Tertiary": "tertiary"
+            }
+        },
+        "title_color": {
+            "label": "Color",
+            "description": "Select the text color. If the Background option is selected, styles that don't apply a background image use the primary color instead.",
+            "type": "select",
+            "options": {
+                "None": "",
+                "Muted": "muted",
+                "Emphasis": "emphasis",
+                "Primary": "primary",
+                "Secondary": "secondary",
+                "Success": "success",
+                "Warning": "warning",
+                "Danger": "danger",
+                "Background": "background"
+            }
+        },
+        "show_more": {
+            "type": "checkbox",
+            "text": "Show More Button"
+        },
+        "show_more_limit": {
+            "type": "text",
+            "label": "Show More Limit",
+            "enable": "show_more"
+        },
+        "content_more": {
+            "label": "Show More Label",
+            "source": true,
+            "enable": "show_more"
+        },
+        "content_less": {
+            "label": "Show Less Label",
+            "source": true,
+            "enable": "show_more"
+        },
+        "button_style": {
+            "label": "Style",
+            "description": "Set the button style.",
+            "type": "select",
+            "options": {
+                "Default": "default",
+                "Primary": "primary",
+                "Secondary": "secondary",
+                "Danger": "danger",
+                "Text": "text",
+                "Link": "",
+                "Link Muted": "link-muted",
+                "Link Text": "link-text"
+            },
+            "enable": "show_more"
+        },
+        "button_size": {
+            "label": "Size",
+            "type": "select",
+            "options": {
+                "Small": "small",
+                "Default": "",
+                "Large": "large"
+            },
+            "enable": "show_more"
+        },
+        "fullwidth": {
+            "type": "checkbox",
+            "text": "Full width button",
+            "enable": "show_more"
+        },
+        "icon": {
+            "label": "Icon",
+            "description": "Pick an optional icon.",
+            "type": "icon",
+            "source": true,
+            "enable": "show_more"
+        },
+        "icon_align": {
+            "label": "Alignment",
+            "description": "Choose the icon position.",
+            "type": "select",
+            "options": {
+                "Left": "left",
+                "Right": "right"
+            },
+            "enable": "icon && show_more"
+        },
+        "position": "${builder.position}",
+        "position_left": "${builder.position_left}",
+        "position_right": "${builder.position_right}",
+        "position_top": "${builder.position_top}",
+        "position_bottom": "${builder.position_bottom}",
+        "position_z_index": "${builder.position_z_index}",
+        "margin": "${builder.margin}",
+        "margin_remove_top": "${builder.margin_remove_top}",
+        "margin_remove_bottom": "${builder.margin_remove_bottom}",
+        "maxwidth": "${builder.maxwidth}",
+        "maxwidth_breakpoint": "${builder.maxwidth_breakpoint}",
+        "block_align": "${builder.block_align}",
+        "block_align_breakpoint": "${builder.block_align_breakpoint}",
+        "block_align_fallback": "${builder.block_align_fallback}",
+        "text_align": "${builder.text_align_justify}",
+        "text_align_breakpoint": "${builder.text_align_breakpoint}",
+        "text_align_fallback": "${builder.text_align_justify_fallback}",
+        "animation": "${builder.animation}",
+        "_parallax_button": "${builder._parallax_button}",
+        "visibility": "${builder.visibility}",
+        "name": "${builder.name}",
+        "status": "${builder.status}",
+        "id": "${builder.id}",
+        "class": "${builder.cls}",
+        "attributes": "${builder.attrs}",
+        "css": {
+            "label": "CSS",
+            "description": "Enter your own custom CSS. The following selectors will be prefixed automatically for this element: <code>.el-element</code>, <code>.el-item</code>, <code>.el-title</code>, <code>.el-meta</code>, <code>.el-content</code>, <code>.el-image</code>, <code>.el-link</code>",
+            "type": "editor",
+            "editor": "code",
+            "mode": "css",
+            "attrs": {
+                "debounce": 500
+            }
+        }
+    },
+    "fieldset": {
+        "default": {
+            "type": "tabs",
+            "fields": [
+                {
+                    "title": "Settings",
+                    "fields": [
+                        "facet",
+                        "show_more",
+                        "show_more_limit",
+                        "content_more",
+                        "content_less",
+                        "icon",
+                        "icon_align",
+                        "button_style",
+                        "button_size",
+                        "fullwidth"
+                    ]
+                },
+                {
+                    "title": "Title",
+                    "fields": [
+                        "title",
+                        "title_style",
+                        "title_decoration",
+                        "title_font_family",
+                        "title_color",
+                        "title_element"
+                    ]
+                },
+                {
+                    "title": "General",
+                    "fields": [
+                        "position",
+                        "position_left",
+                        "position_right",
+                        "position_top",
+                        "position_bottom",
+                        "position_z_index",
+                        "margin",
+                        "margin_remove_top",
+                        "margin_remove_bottom",
+                        "maxwidth",
+                        "maxwidth_breakpoint",
+                        "block_align",
+                        "block_align_breakpoint",
+                        "block_align_fallback",
+                        "text_align",
+                        "text_align_breakpoint",
+                        "text_align_fallback",
+                        "animation",
+                        "_parallax_button",
+                        "visibility"
+                    ]
+                },
+                "${builder.advanced}"
+            ]
+        }
+    }
+}

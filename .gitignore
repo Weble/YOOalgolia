@@ -1,0 +1,6 @@
+.idea
+.DS_Store
+plugin/vendor
+plugin/node_modules
+build/*
+plugin/composer.lock

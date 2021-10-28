@@ -1,0 +1,13 @@
+{
+    "@import": "./element.php",
+    "name": "algolia",
+    "title": "Algolia",
+    "container": true,
+    "width": 500,
+    "defaults": {
+    },
+    "templates": {
+        "render": "./templates/template.php",
+        "content": "./templates/content.php"
+    }
+}
