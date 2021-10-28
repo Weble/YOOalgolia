@@ -4,8 +4,7 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-
-use Joomla\Uri\Uri;
+use Joomla\Cms\Uri\Uri;
 use YOOtheme\Application;
 use YOOtheme\Path;
 
@@ -27,6 +26,6 @@ class plgSystemYooAlgolia extends Joomla\CMS\Plugin\CMSPlugin
         Path::setAlias('~yooalgolia_url', $rootUrl . '/plugins/system/yooalgolia');
 
         // bootstrap modules
-        $app->load('~yooalgolia/{builder}/bootstrap.php');
+        $app->load('~yooalgolia/builder/bootstrap.php');
     }
 }

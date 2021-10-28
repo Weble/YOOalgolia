@@ -14,7 +14,9 @@
         <filename plugin="yooalgolia">yooalgolia.php</filename>
         <folder>assets</folder>
         <folder>builder</folder>
+        <folder>config</folder>
         <folder>src</folder>
+        <folder>vendor</folder>
     </files>
     <config>
         <fields name="params">

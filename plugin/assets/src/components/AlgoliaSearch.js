@@ -14,33 +14,23 @@ import {
 import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
 
 const routing = {
-    it: {
-        router: historyRouter(),
-        stateMapping: {
-            stateToRoute({iess: {query, refinementList, page}}) {
-
-                return {
+    router: historyRouter(),
+    stateMapping: {
+        stateToRoute({query, page}) {
+            return {
+                query: query,
+                page: page
+            };
+        },
+        routeToState({query, page}) {
+            return {
+                search: {
                     query: query,
-                    tipologie:
-                        refinementList &&
-                        refinementList['category.name.it-IT'] &&
-                        refinementList['category.name.it-IT'].join(','),
                     page: page
-                };
-            },
-            routeToState({query, tipologie, page}) {
-                return {
-                    iess: {
-                        query: query,
-                        refinementList: {
-                            'category.name.it-IT': tipologie && tipologie.split(','),
-                        },
-                        page: page
-                    }
-                };
-            }
+                }
+            };
         }
-    },
+    }
 };
 
 export default {
@@ -65,7 +55,7 @@ export default {
                 this.algoliaAppId,
                 this.algoliaSearchKey
             ),
-            routing: routing.it
+            routing: routing
         };
     },
 

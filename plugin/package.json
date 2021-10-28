@@ -1,5 +1,5 @@
 {
-  "name": "yootheme-iess",
+  "name": "yooalgolia",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,6 +18,6 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Weble",
+  "license": "MIT"
 }

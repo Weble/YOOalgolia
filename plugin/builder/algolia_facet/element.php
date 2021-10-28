@@ -1,7 +1,5 @@
 <?php
 
-namespace Iess\Template\Algolia;
-
 
 return [
 

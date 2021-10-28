@@ -1,0 +1,37 @@
+{
+    "panels": {
+        "algolia": {
+            "title": "Algolia",
+            "width": 400,
+            "fields": {
+                "algolia.app_id": {
+                    "label": "App Id",
+                    "description": "Algolia App Id"
+                },
+                "algolia.admin_key": {
+                    "label": "Admin Key",
+                    "description": "Algolia Admin Key"
+                },
+                "algolia.search_key": {
+                    "label": "Search Key",
+                    "description": "Algolia Search Key"
+                },
+                "algolia.index_name": {
+                    "label": "Index Name",
+                    "description": "Algolia Index Name"
+                }
+            }
+        }
+    },
+    "sections": {
+        "settings": {
+            "fields": {
+                "settings": {
+                    "items": {
+                        "algolia": "Algolia"
+                    }
+                }
+            }
+        }
+    }
+}

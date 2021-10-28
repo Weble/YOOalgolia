@@ -1,8 +1,6 @@
 <?php
 
-namespace Iess\Template\Algolia;
 
-use Iess\Template\AlgoliaService;
 use YOOtheme\Builder\Source\SourceTransform;
 use YOOtheme\Metadata;
 use YOOtheme\Path;

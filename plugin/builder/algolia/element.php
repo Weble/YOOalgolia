@@ -1,8 +1,6 @@
 <?php
 
-namespace Iess\Template\Algolia;
-
-use Iess\Template\AlgoliaService;
+use Weble\YOOAlgolia\AlgoliaService;
 use YOOtheme\Metadata;
 use YOOtheme\Path;
 use function YOOtheme\app;
@@ -16,7 +14,7 @@ return [
 
             $metadata = app(Metadata::class);
             $algolia = new AlgoliaService($node->props);
-            $metadata->set('script:algolia-element', ['src' => Path::get("./assets/js/algolia.min.js"), 'defer' => true]);
+            $metadata->set('script:algolia-element', ['src' => "plugins/system/yooalgolia/assets/algolia.min.js", 'defer' => true]);
 
             $node->algolia = $algolia->config();
         }
