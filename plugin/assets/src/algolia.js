@@ -3,11 +3,13 @@ import AlgoliaSearch from './components/AlgoliaSearch'
 
 let $$ = window.UIkit.util.$$;
 
-$$('[data-algolia]').forEach(element => {
-    new Vue({
-        el: element,
-        components: {
-            AlgoliaSearch
-        }
+window.UIkit.util.ready(function(){
+    $$('[data-algolia]').forEach(element => {
+        new Vue({
+            el: element,
+            components: {
+                AlgoliaSearch
+            }
+        })
     })
 })
