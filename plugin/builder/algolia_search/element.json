@@ -8,6 +8,7 @@
     "element": true,
     "width": 500,
     "defaults": {
+        "placeholder": "Search..."
     },
     "templates": {
         "render": "./templates/template.php",
@@ -59,9 +60,6 @@
             "type": "checkbox",
             "text": "Full width button"
         },
-        "control_size": "${yooessentials.form.fields.control_size}",
-        "control_icon": "${yooessentials.form.fields.control_icon}",
-        "control_icon_align": "${yooessentials.form.fields.control_icon_align}",
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
         "position_right": "${builder.position_right}",
@@ -113,31 +111,6 @@
                         "button_style",
                         "button_size",
                         "fullwidth"
-                    ]
-                },
-                {
-                    "title": "General",
-                    "fields": [
-                        "position",
-                        "position_left",
-                        "position_right",
-                        "position_top",
-                        "position_bottom",
-                        "position_z_index",
-                        "margin",
-                        "margin_remove_top",
-                        "margin_remove_bottom",
-                        "maxwidth",
-                        "maxwidth_breakpoint",
-                        "block_align",
-                        "block_align_breakpoint",
-                        "block_align_fallback",
-                        "text_align",
-                        "text_align_breakpoint",
-                        "text_align_fallback",
-                        "animation",
-                        "_parallax_button",
-                        "visibility"
                     ]
                 },
                 "${builder.advanced}"
