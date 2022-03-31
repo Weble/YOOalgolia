@@ -35,6 +35,7 @@ if ($props['title'] ?? null) {
 <?= $el($props, $attrs); ?>
 <ais-refinement-list
         attribute="<?= $node->props['facet'] ?>"
+        limit="<?= $props['limit'] ?>"
 
     <?php if ($props['show_more'] ?? true): ?>
         :show-more-limit="<?= $props['show_more_limit'] ?? 50; ?>"
