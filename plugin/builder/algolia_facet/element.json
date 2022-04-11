@@ -15,7 +15,8 @@
         "icon_align": "right",
         "show_more": "1",
         "show_more_limit": "50",
-        "title_element": "h6"
+        "title_element": "h6",
+        "limit": 10
     },
     "templates": {
         "render": "./templates/template.php",
@@ -98,22 +99,27 @@
                 "Background": "background"
             }
         },
+        "limit": {
+            "label": "Limit Facets",
+            "type": "number"
+        },
         "show_more": {
+            "label": "Enable",
             "type": "checkbox",
-            "text": "Show More Button"
+            "text": "Enable Show More Button"
         },
         "show_more_limit": {
             "type": "text",
-            "label": "Show More Limit",
+            "label": "Limit",
             "enable": "show_more"
         },
         "content_more": {
-            "label": "Show More Label",
+            "label": "'Show More' Label",
             "source": true,
             "enable": "show_more"
         },
         "content_less": {
-            "label": "Show Less Label",
+            "label": "'Show Less' Label",
             "source": true,
             "enable": "show_more"
         },
@@ -209,15 +215,23 @@
                     "title": "Settings",
                     "fields": [
                         "facet",
-                        "show_more",
-                        "show_more_limit",
-                        "content_more",
-                        "content_less",
-                        "icon",
-                        "icon_align",
-                        "button_style",
-                        "button_size",
-                        "fullwidth"
+                        "limit",
+                        {
+                            "label": "Show More Button",
+                            "type": "group",
+                            "divider": true,
+                            "fields": [
+                                "show_more",
+                                "show_more_limit",
+                                "content_more",
+                                "content_less",
+                                "icon",
+                                "icon_align",
+                                "button_style",
+                                "button_size",
+                                "fullwidth"
+                            ]
+                        }
                     ]
                 },
                 {
