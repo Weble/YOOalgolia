@@ -11,6 +11,7 @@
         "content_more": "Show More",
         "content_less": "Show Less",
         "icon": "close",
+        "icon_less": "close",
         "button_style": "default",
         "icon_align": "right",
         "show_more": "1",
@@ -155,7 +156,14 @@
             "enable": "show_more"
         },
         "icon": {
-            "label": "Icon",
+            "label": "Icon Show More",
+            "description": "Pick an optional icon.",
+            "type": "icon",
+            "source": true,
+            "enable": "show_more"
+        },
+        "icon_less": {
+            "label": "Icon Show Less",
             "description": "Pick an optional icon.",
             "type": "icon",
             "source": true,
@@ -169,7 +177,7 @@
                 "Left": "left",
                 "Right": "right"
             },
-            "enable": "icon && show_more"
+            "enable": "show_more"
         },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
@@ -226,6 +234,7 @@
                                 "content_more",
                                 "content_less",
                                 "icon",
+                                "icon_less",
                                 "icon_align",
                                 "button_style",
                                 "button_size",

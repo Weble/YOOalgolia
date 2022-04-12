@@ -30,6 +30,11 @@ if ($props['title'] ?? null) {
 
     ]);
 }
+
+$buttonAttrs = [
+    'v-if="canToggleShowMore"'
+];
+
 ?>
 
 <?= $el($props, $attrs); ?>
@@ -85,10 +90,11 @@ if ($props['title'] ?? null) {
         </ul>
 
         <?php if ($props['show_more'] ?? true): ?>
-            <?= $button($props) ?>
+            <?= $button($props, $buttonAttrs) ?>
             <?php if ($props['icon']) : ?>
                 <?php if ($props['icon_align'] == 'left') : ?>
-                    <span uk-icon="<?= $props['icon'] ?>"></span>
+                    <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
+                    <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
                 <?php endif ?>
 
                 <span class="uk-text-middle" v-if="isShowingMore">
@@ -99,7 +105,8 @@ if ($props['title'] ?? null) {
                 </span>
 
                 <?php if ($props['icon_align'] == 'right') : ?>
-                    <span uk-icon="<?= $props['icon'] ?>"></span>
+                    <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
+                    <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
                 <?php endif ?>
 
             <?php else : ?>
