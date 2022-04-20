@@ -9,6 +9,7 @@ import {
     AisRefinementList,
     AisStats,
     AisSearchBox,
+    AisSortBy,
 } from 'vue-instantsearch';
 
 import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
@@ -47,6 +48,7 @@ export default {
         AisCurrentRefinements,
         AisStats,
         AisSearchBox,
+        AisSortBy,
     },
 
     data() {
