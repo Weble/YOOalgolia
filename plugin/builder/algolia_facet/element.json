@@ -17,7 +17,10 @@
         "show_more": "1",
         "show_more_limit": "50",
         "title_element": "h6",
-        "limit": 10
+        "limit": 10,
+        "enable_all_button": true,
+        "all_button_text": "All",
+        "facet_type": "Checkbox"
     },
     "templates": {
         "render": "./templates/template.php",
@@ -100,6 +103,14 @@
                 "Background": "background"
             }
         },
+        "facet_type": {
+            "label": "Facet Type",
+            "type": "select",
+            "options": {
+                "Checkbox": "checkbox",
+                "Radio": "radio"
+            }
+        },
         "limit": {
             "label": "Limit Facets",
             "type": "number"
@@ -179,6 +190,15 @@
             },
             "enable": "show_more"
         },
+        "enable_all_button": {
+            "label": "Enable All Button",
+            "type": "checkbox",
+            "text": "Enable"
+        },
+        "all_button_text": {
+            "label": "All Button Text",
+            "enable": "enable_all_button"
+        },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
         "position_right": "${builder.position_right}",
@@ -222,6 +242,7 @@
                 {
                     "title": "Settings",
                     "fields": [
+                        "facet_type",
                         "facet",
                         "limit",
                         {
@@ -239,6 +260,15 @@
                                 "button_style",
                                 "button_size",
                                 "fullwidth"
+                            ]
+                        },
+                        {
+                            "label": "All Button",
+                            "type": "group",
+                            "divider": true,
+                            "fields": [
+                                "enable_all_button",
+                                "all_button_text"
                             ]
                         }
                     ]
