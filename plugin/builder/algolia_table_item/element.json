@@ -1,0 +1,32 @@
+{
+    "name": "algolia_table_column",
+    "title": "Item",
+    "width": 500,
+    "fields": {
+        "title": {
+            "label": "Column Heading",
+            "source": true
+        },
+        "value": {
+            "label": "Algolia Value",
+            "source": true
+        },
+        "status": "${builder.statusItem}",
+        "source": "${builder.source}"
+    },
+    "fieldset": {
+        "default": {
+            "type": "tabs",
+            "fields": [
+                {
+                    "title": "Content",
+                    "fields": [
+                        "title",
+                        "value"
+                    ]
+                },
+                "${builder.advancedItem}"
+            ]
+        }
+    }
+}

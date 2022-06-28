@@ -111,6 +111,11 @@
                 "Radio": "radio"
             }
         },
+        "item_count": {
+            "label": "Show item count",
+            "type": "checkbox",
+            "text": "Enable"
+        },
         "limit": {
             "label": "Limit Facets",
             "type": "number"
@@ -244,6 +249,7 @@
                     "fields": [
                         "facet_type",
                         "facet",
+                        "item_count",
                         "limit",
                         {
                             "label": "Show More Button",

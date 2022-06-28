@@ -102,7 +102,9 @@ $buttonAttrs = [
                             @change="refine(item.value)"
                     />
                     <span class="uk-flex-1">{{ item.label }}</span>
-                    <span class="uk-padding-small-left">{{ item.count }}</span>
+                    <?php if ($props['item_count']) : ?>
+                        <span class="uk-padding-small-left">{{ item.count }}</span>
+                    <?php endif ?>
                 </label>
             </li>
         </ul>
@@ -202,7 +204,9 @@ $buttonAttrs = [
                             @change="refine(item.value)"
                     />
                     <span class="uk-flex-1">{{ item.label }}</span>
+                    <?php if ($props['item_count']) : ?>
                     <span class="uk-padding-small-left">{{ item.count }}</span>
+                    <?php endif ?>
                 </label>
             </li>
 
