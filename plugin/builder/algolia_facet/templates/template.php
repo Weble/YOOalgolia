@@ -93,7 +93,7 @@ $buttonAttrs = [
             </li>
 
             <li v-for="item in items" :key="item.value">
-                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
+                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle" @click="e => e.target.classList.toggle('uk-active')">
                     <input
                             class="uk-checkbox uk-margin-small-right"
                             type="checkbox"
@@ -194,7 +194,7 @@ $buttonAttrs = [
             <?php endif ?>
 
             <li v-for="item in items" :key="item.value">
-                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
+                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle" @click="e => e.target.classList.toggle('uk-active')">
                     <input
                             class="uk-radio uk-margin-small-right"
                             type="radio"
