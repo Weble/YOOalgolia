@@ -10,6 +10,9 @@ import {
     AisStats,
     AisSearchBox,
     AisSortBy,
+    AisRangeInput,
+    AisToggleRefinement,
+    AisClearRefinements
 } from 'vue-instantsearch';
 
 import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
@@ -49,6 +52,9 @@ export default {
         AisStats,
         AisSearchBox,
         AisSortBy,
+        AisRangeInput,
+        AisToggleRefinement,
+        AisClearRefinements
     },
 
     data() {
@@ -66,7 +72,32 @@ export default {
     },
 
 
-    methods: {},
+    methods: {
+
+        groupBy: function(xs, key, key1, key2) {
+            return xs.reduce(function(rv, x) {
+                (rv[x[key][key1][key2]] = rv[x[key][key1][key2]] || []).push(x);
+                return rv;
+            }, {});
+        },
+
+        formatMinValue: function(minValue, minRange) {
+            return minValue !== null && minValue !== minRange ? minValue : '';
+        },
+
+        formatMaxValue: function(maxValue, maxRange) {
+            return maxValue !== null && maxValue !== maxRange ? maxValue : '';
+        },
+
+        truncate: function(text, length, clamp){
+            clamp = clamp || '...';
+            let node = document.createElement('div');
+            node.innerHTML = text;
+            let content = node.textContent;
+            return content.length > length ? content.slice(0, length) + clamp : content;
+        }
+
+    },
 
     watch: {}
 

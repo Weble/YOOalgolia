@@ -1,26 +1,14 @@
 {
     "@import": "./element.php",
-    "name": "algolia_facet",
-    "title": "Facet Filter",
+    "name": "algolia_facet_toggle",
+    "title": "Toggle Filter",
     "group": "Algolia",
     "icon": "${url:svg/icon.svg}",
     "iconSmall": "${url:svg/iconSmall.svg}",
     "element": true,
     "width": 500,
     "defaults": {
-        "content_more": "Show More",
-        "content_less": "Show Less",
-        "icon": "close",
-        "icon_less": "close",
-        "button_style": "default",
-        "icon_align": "right",
-        "show_more": "1",
-        "show_more_limit": "50",
-        "title_element": "h6",
-        "limit": 10,
-        "enable_all_button": true,
-        "all_button_text": "All",
-        "facet_type": "Checkbox"
+        "facet_count": true
     },
     "templates": {
         "render": "./templates/template.php",
@@ -28,8 +16,27 @@
     },
     "fields": {
         "title": {
-            "label": "Facet Title",
-            "type": "text"
+            "label": "Facet Title"
+        },
+        "facet_name": {
+            "label": "Facet Name"
+        },
+        "facet": {
+            "label": "Facet"
+        },
+        "on_condition": {
+            "label": "On",
+            "attrs": {
+                "placeholder": "Facet value"
+            }
+        },
+        "off_condition": {
+            "label": "Off"
+        },
+        "facet_count": {
+            "label": "Facet count",
+            "text": "Show",
+            "type": "checkbox"
         },
         "title_element": {
             "label": "HTML Element",
@@ -103,107 +110,6 @@
                 "Background": "background"
             }
         },
-        "facet_type": {
-            "label": "Facet Type",
-            "type": "select",
-            "options": {
-                "Checkbox": "checkbox",
-                "Radio": "radio"
-            }
-        },
-        "item_count": {
-            "label": "Show item count",
-            "type": "checkbox",
-            "text": "Enable"
-        },
-        "limit": {
-            "label": "Limit Facets",
-            "type": "number"
-        },
-        "show_more": {
-            "label": "Enable",
-            "type": "checkbox",
-            "text": "Enable Show More Button"
-        },
-        "show_more_limit": {
-            "type": "text",
-            "label": "Limit",
-            "enable": "show_more"
-        },
-        "content_more": {
-            "label": "'Show More' Label",
-            "source": true,
-            "enable": "show_more"
-        },
-        "content_less": {
-            "label": "'Show Less' Label",
-            "source": true,
-            "enable": "show_more"
-        },
-        "button_style": {
-            "label": "Style",
-            "description": "Set the button style.",
-            "type": "select",
-            "options": {
-                "Default": "default",
-                "Primary": "primary",
-                "Secondary": "secondary",
-                "Danger": "danger",
-                "Text": "text",
-                "Link": "",
-                "Link Muted": "link-muted",
-                "Link Text": "link-text"
-            },
-            "enable": "show_more"
-        },
-        "button_size": {
-            "label": "Size",
-            "type": "select",
-            "options": {
-                "Small": "small",
-                "Default": "",
-                "Large": "large"
-            },
-            "enable": "show_more"
-        },
-        "fullwidth": {
-            "type": "checkbox",
-            "text": "Full width button",
-            "enable": "show_more"
-        },
-        "icon": {
-            "label": "Icon Show More",
-            "description": "Pick an optional icon.",
-            "type": "icon",
-            "source": true,
-            "enable": "show_more"
-        },
-        "icon_less": {
-            "label": "Icon Show Less",
-            "description": "Pick an optional icon.",
-            "type": "icon",
-            "source": true,
-            "enable": "show_more"
-        },
-        "icon_align": {
-            "label": "Alignment",
-            "description": "Choose the icon position.",
-            "type": "select",
-            "options": {
-                "Left": "left",
-                "Right": "right"
-            },
-            "enable": "show_more"
-        },
-        "enable_all_button": {
-            "label": "Enable All Button",
-            "type": "checkbox",
-            "text": "Enable"
-        },
-        "all_button_text": {
-            "label": "All Button Text",
-            "enable": "enable_all_button"
-        },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
         "position_right": "${builder.position_right}",
@@ -247,52 +153,37 @@
                 {
                     "title": "Settings",
                     "fields": [
-                        "facet_type",
                         "facet",
-                        "item_count",
-                        "limit",
+                        "title",
+                        "facet_name",
+                        "facet_count",
                         {
-                            "label": "Show More Button",
-                            "type": "group",
-                            "divider": true,
+                            "label": "Conditions",
+                            "description": "Define what value will be refined when the toggle is on and off",
+                            "type": "grid",
+                            "width": "1-2",
                             "fields": [
-                                "show_more",
-                                "show_more_limit",
-                                "content_more",
-                                "content_less",
-                                "icon",
-                                "icon_less",
-                                "icon_align",
-                                "button_style",
-                                "button_size",
-                                "fullwidth"
-                            ]
-                        },
-                        {
-                            "label": "All Button",
-                            "type": "group",
-                            "divider": true,
-                            "fields": [
-                                "enable_all_button",
-                                "all_button_text"
+                                "on_condition",
+                                "off_condition"
                             ]
                         }
                     ]
                 },
                 {
-                    "title": "Title",
-                    "fields": [
-                        "title",
-                        "title_style",
-                        "title_decoration",
-                        "title_font_family",
-                        "title_color",
-                        "title_element"
-                    ]
-                },
-                {
                     "title": "General",
                     "fields": [
+                        {
+                            "label": "Title",
+                            "type": "group",
+                            "divider": true,
+                            "fields": [
+                                "title_style",
+                                "title_decoration",
+                                "title_font_family",
+                                "title_color",
+                                "title_element"
+                            ]
+                        },
                         "position",
                         "position_left",
                         "position_right",

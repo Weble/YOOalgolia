@@ -1,36 +1,23 @@
 {
     "@import": "./element.php",
-    "name": "algolia_search",
-    "title": "Search Box",
+    "name": "algolia_clear_refinements",
+    "title": "Clear Refinements",
     "group": "Algolia",
     "icon": "${url:svg/icon.svg}",
     "iconSmall": "${url:svg/iconSmall.svg}",
     "element": true,
     "width": 500,
     "defaults": {
-        "placeholder": "Search..."
+        "button_style": "default",
+        "is_always_visible": true
     },
     "templates": {
         "render": "./templates/template.php",
         "content": "./templates/content.php"
     },
     "fields": {
-        "placeholder": {
-            "label": "Placeholder"
-        },
-        "submit-title": {
-            "label": "Submit Button Title"
-        },
-        "reset-title": {
-            "label": "Reset button Title"
-        },
-        "autofocus": {
-            "text": "Autofocus",
-            "type": "checkbox"
-        },
-        "loading": {
-            "text": "Show Loading Indicator",
-            "type": "checkbox"
+        "button_text": {
+            "label": "Button Text"
         },
         "button_style": {
             "label": "Style",
@@ -47,6 +34,11 @@
                 "Link Text": "link-text"
             }
         },
+        "fullwidth": {
+            "label": "",
+            "type": "checkbox",
+            "text": "Full width button"
+        },
         "button_size": {
             "label": "Size",
             "type": "select",
@@ -56,9 +48,20 @@
                 "Large": "large"
             }
         },
-        "fullwidth": {
-            "type": "checkbox",
-            "text": "Full width button"
+        "icon": {
+            "label": "Icon",
+            "description": "Pick an optional icon.",
+            "type": "icon",
+            "source": true
+        },
+        "icon_align": {
+            "label": "Alignment",
+            "description": "Choose the icon position.",
+            "type": "select",
+            "options": {
+                "Left": "left",
+                "Right": "right"
+            }
         },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
@@ -103,14 +106,18 @@
                 {
                     "title": "Settings",
                     "fields": [
-                        "placeholder",
-                        "submit-title",
-                        "reset-title",
-                        "autofocus",
-                        "loading",
+                        "button_text",
                         "button_style",
-                        "button_size",
-                        "fullwidth"
+                        {
+                            "label": "",
+                            "type": "group",
+                            "fields": [
+                                "button_size",
+                                "fullwidth"
+                            ]
+                        },
+                        "icon",
+                        "icon_align"
                     ]
                 },
                 {

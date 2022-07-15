@@ -4,3 +4,4 @@ plugin/vendor
 plugin/node_modules
 build/*
 plugin/composer.lock
+plugin/assets/algolia.min.js
