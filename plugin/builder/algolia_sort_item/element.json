@@ -5,7 +5,7 @@
     "width": 500,
     "fields": {
         "item_value": {
-            "label": "Title",
+            "label": "Value",
             "source": true
         },
         "item_label": {

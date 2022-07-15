@@ -77,8 +77,8 @@ $buttonAttrs = [
         <?php endif ?>
         <ul class="uk-list uk-list-small facet-filters">
 
-            <li>
-                <?php if ($props['enable_all_button']) : ?>
+            <?php if ($props['enable_all_button']) : ?>
+                <li v-if="items.length">
                     <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
                         <input
                                 class="uk-radio uk-margin-small-right"
@@ -89,11 +89,11 @@ $buttonAttrs = [
                         />
                         <span class="uk-flex-1"><?= $props['all_button_text'] ?></span>
                     </label>
-                <?php endif ?>
-            </li>
+               </li>
+            <?php endif ?>
 
             <li v-for="item in items" :key="item.value">
-                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle" @click="e => e.target.classList.toggle('uk-active')">
+                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
                     <input
                             class="uk-checkbox uk-margin-small-right"
                             type="checkbox"
@@ -103,7 +103,7 @@ $buttonAttrs = [
                     />
                     <span class="uk-flex-1">{{ item.label }}</span>
                     <?php if ($props['item_count']) : ?>
-                        <span class="uk-padding-small-left">{{ item.count }}</span>
+                        <span class="uk-padding-small-left facet-count">{{ item.count }}</span>
                     <?php endif ?>
                 </label>
             </li>
@@ -179,22 +179,22 @@ $buttonAttrs = [
         <ul class="uk-list uk-list-small facet-filters">
 
             <?php if ($props['enable_all_button']) : ?>
-            <li>
-                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
-                    <input
-                            class="uk-radio uk-margin-small-right"
-                            type="radio"
-                            name="<?= $node->props['facet'] ?>"
-                            checked="checked"
-                            @change="refine('')"
-                    />
-                    <span class="uk-flex-1"><?= $props['all_button_text'] ?></span>
-                </label>
-            </li>
+                <li v-if="items.length">
+                    <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
+                        <input
+                                class="uk-radio uk-margin-small-right"
+                                type="radio"
+                                name="<?= $node->props['facet'] ?>"
+                                checked="checked"
+                                @change="refine('')"
+                        />
+                        <span class="uk-flex-1"><?= $props['all_button_text'] ?></span>
+                    </label>
+                </li>
             <?php endif ?>
 
             <li v-for="item in items" :key="item.value">
-                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle" @click="e => e.target.classList.toggle('uk-active')">
+                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
                     <input
                             class="uk-radio uk-margin-small-right"
                             type="radio"
@@ -205,7 +205,7 @@ $buttonAttrs = [
                     />
                     <span class="uk-flex-1">{{ item.label }}</span>
                     <?php if ($props['item_count']) : ?>
-                    <span class="uk-padding-small-left">{{ item.count }}</span>
+                        <span class="uk-padding-small-left facet-count">{{ item.count }}</span>
                     <?php endif ?>
                 </label>
             </li>

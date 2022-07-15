@@ -17,6 +17,17 @@
             "type": "content-items",
             "item": "algolia_sort_item"
         },
+        "sort_by_text": {
+            "label": "Sort By Text"
+        },
+        "template": {
+            "label": "Template",
+            "type": "select",
+            "options": {
+                "Select": "select",
+                "Subnav": "subnav"
+            }
+        },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
         "position_right": "${builder.position_right}",
@@ -60,6 +71,8 @@
                 {
                     "title": "Settings",
                     "fields": [
+                        "template",
+                        "sort_by_text",
                         "sorting_items"
                     ]
                 },
