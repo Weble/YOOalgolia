@@ -8,6 +8,7 @@
     "element": true,
     "width": 500,
     "defaults": {
+        "facet_count": true
     },
     "templates": {
         "render": "./templates/template.php",
@@ -31,6 +32,11 @@
         },
         "off_condition": {
             "label": "Off"
+        },
+        "facet_count": {
+            "label": "Facet count",
+            "text": "Show",
+            "type": "checkbox"
         },
         "title_element": {
             "label": "HTML Element",
@@ -150,6 +156,7 @@
                         "facet",
                         "title",
                         "facet_name",
+                        "facet_count",
                         {
                             "label": "Conditions",
                             "description": "Define what value will be refined when the toggle is on and off",

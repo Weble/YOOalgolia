@@ -20,7 +20,7 @@ $table = $this->el('table', [
 <ais-hits class="algolia-hits-table">
     <div slot-scope="{ items }">
         <div v-for="(type_items, type) in groupBy(items, 'tipologia', 'names')">
-            <div class="product-type-name">{{ type }}</div>
+            <div class="product-type-name" v-if="type !== 'undefined'">{{ type }}</div>
             <div class="uk-overflow-auto">
                 <?= $table($props) ?>
                 <thead>

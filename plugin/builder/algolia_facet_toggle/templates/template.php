@@ -74,7 +74,9 @@ $props['off_condition'] =    (!is_numeric($props['off_condition']) &&
                                 @change="refine(value)"
                         />
                         <span class="uk-flex-1"><?= $props['facet_name'] ?></span>
+                        <?php if ($props['facet_count']) : ?>
                         <span class="uk-padding-small-left facet-count">{{ value.count }}</span>
+                        <?php endif ?>
                     </label>
                 </li>
             </ul>

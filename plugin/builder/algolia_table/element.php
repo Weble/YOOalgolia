@@ -9,7 +9,7 @@ use function YOOtheme\app;
 
 $templateFiles = Folder::files(__DIR__ . '/templates');
 
-$childThemeDir = Path::resolve('~theme/builder/algolia_hits_table/templates');
+$childThemeDir = Path::resolve('~theme/builder/algolia_table/templates');
 
 if (is_dir($childThemeDir)) {
     $childThemeFiles = Folder::files($childThemeDir);
