@@ -18,24 +18,83 @@ import {
 import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
 
 const routing = {
-    router: historyRouter(),
-    stateMapping: {
-        stateToRoute({query, page}) {
+    router: historyRouter({
+        createURL({ qsModule, routeState, location }) {
+            const queryParameters = {};
+
+            if (routeState.query) {
+                queryParameters.query = encodeURIComponent(routeState.query);
+            }
+            if (routeState.page !== 1) {
+                queryParameters.page = routeState.page;
+            }
+            if (routeState.category) {
+                queryParameters.category = routeState.category.map(encodeURIComponent);
+            }
+            if (routeState.exclusive) {
+                queryParameters.exclusive = routeState.exclusive;
+            }
+
+            const queryString = qsModule.stringify(queryParameters, {
+                addQueryPrefix: true,
+                arrayFormat: 'repeat',
+            });
+
+            return `${location.origin}${location.pathname}${queryString}`;
+        },
+
+        parseURL({ qsModule, location }) {
+            const uiState = qsModule.parse(
+                location.search.slice(1)
+            );
+
+            // `qs` does not return an array when there's a single value.
             return {
-                query: query,
-                page: page
+                query: decodeURIComponent(uiState.query ?? ''),
+                page: uiState.page,
+                category: toArray(uiState.category).map(decodeURIComponent),
+                toggle: uiState.exclusive
             };
         },
-        routeToState({query, page}) {
+    }),
+
+    stateMapping: {
+        stateToRoute(uiState) {
+            /* uiState[~index_name~] */
+            const indexUiState = uiState['prod_products'] || {};
+            console.log(indexUiState);
+
             return {
-                search: {
-                    query: query,
-                    page: page
+                query: indexUiState.query,
+                page: indexUiState.page,
+                category: indexUiState.refinementList && indexUiState.refinementList['primary_category.name.en-GB'],
+                exclusive: indexUiState.toggle && indexUiState.toggle['esclusiva.names'] || indexUiState.toggle && indexUiState.toggle['esclusiva.values']
+            };
+        },
+        routeToState(routeState) {
+            return {
+                /* Index name */
+                prod_products: {
+                    query: routeState.query,
+                    page: routeState.page,
+                    refinementList: {
+                        'primary_category.name.en-GB': routeState.category
+                    },
+                    toggle: {
+                        'esclusiva.names': routeState.exclusive === 'true',
+                        'esclusiva.values': routeState.exclusive === 'true',
+                    }
                 }
             };
         }
     }
 };
+
+const toArray = function(array) {
+    return Array.isArray(array)
+        ? array
+        : [array].filter(Boolean);
+}
 
 export default {
 
