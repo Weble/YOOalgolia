@@ -34,6 +34,9 @@ const routing = {
             if (routeState.exclusive) {
                 queryParameters.exclusive = routeState.exclusive;
             }
+            if (routeState.sortBy) {
+                queryParameters.sortBy = routeState.sortBy;
+            }
 
             const queryString = qsModule.stringify(queryParameters, {
                 addQueryPrefix: true,
@@ -53,7 +56,8 @@ const routing = {
                 query: decodeURIComponent(uiState.query ?? ''),
                 page: uiState.page,
                 category: toArray(uiState.category).map(decodeURIComponent),
-                toggle: uiState.exclusive
+                exclusive: uiState.exclusive,
+                sortBy: uiState.sortBy
             };
         },
     }),
@@ -62,13 +66,13 @@ const routing = {
         stateToRoute(uiState) {
             /* uiState[~index_name~] */
             const indexUiState = uiState['prod_products'] || {};
-            console.log(indexUiState);
-
+            
             return {
                 query: indexUiState.query,
                 page: indexUiState.page,
                 category: indexUiState.refinementList && indexUiState.refinementList['primary_category.name.en-GB'],
-                exclusive: indexUiState.toggle && indexUiState.toggle['esclusiva.names'] || indexUiState.toggle && indexUiState.toggle['esclusiva.values']
+                exclusive: indexUiState.toggle && indexUiState.toggle['esclusiva.names'] || indexUiState.toggle && indexUiState.toggle['esclusiva.values'],
+                sortBy: indexUiState.sortBy
             };
         },
         routeToState(routeState) {
@@ -81,9 +85,10 @@ const routing = {
                         'primary_category.name.en-GB': routeState.category
                     },
                     toggle: {
-                        'esclusiva.names': routeState.exclusive === 'true',
-                        'esclusiva.values': routeState.exclusive === 'true',
-                    }
+                        'esclusiva.names': routeState.exclusive,
+                        'esclusiva.values': routeState.exclusive,
+                    },
+                    sortBy: routeState.sortBy
                 }
             };
         }
