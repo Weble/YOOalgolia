@@ -14,29 +14,85 @@ import {
 
 import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
 
-const routing = {
-    router: historyRouter(),
-    stateMapping: {
-        stateToRoute({query, page}) {
-            return {
-                query: query,
-                page: page
-            };
-        },
-        routeToState({query, page}) {
-            return {
-                search: {
-                    query: query,
-                    page: page
+function getRouting(indexName, routingRefinements) {
+
+    const refinements = routingRefinements.split(',');
+
+    return {
+        router: historyRouter(),
+        stateMapping: {
+            stateToRoute(uiState) {
+
+                let indexState = uiState[indexName];
+
+                /* PROCESS */
+
+                let state = {};
+
+                refinements.forEach(function (refinement) {
+
+                    var param = refinement.split(':');
+
+                    if (indexState.refinementList && indexState.refinementList[param[1]]) {
+                        state[param[0]] = indexState.refinementList[param[1]].join(',')
+                    }
+                });
+
+                state['query'] = indexState.query;
+                state['page'] = indexState.page;
+                state['sortBy'] = indexState.sortBy;
+
+
+                return state;
+            },
+            routeToState(routeState) {
+
+                let refinementList = {};
+
+                refinements.forEach(function (refinement) {
+
+                    var param = refinement.split(':');
+
+                    routeState[param[0]]
+
+                    if (routeState[param[0]]) {
+                        refinementList[param[1]] = routeState[param[0]].split(',');
+                    }
+                });
+
+                let state = {};
+
+                state[indexName] = {
+                    query: routeState.query,
+                    page: routeState.page,
+                    refinementList: refinementList,
+                    sortBy: routeState.sortBy
                 }
-            };
+
+                return state;
+            }
+        }
+    };
+}
+
+
+function middleware({ instantSearchInstance }) {
+
+    return {
+        onStateChange({ uiState }) {
+        },
+        subscribe() {
+            return
+        },
+        unsubscribe() {
+            return
         }
     }
-};
+}
 
 export default {
 
-    props: ['baseUrl', 'algoliaIndexName', 'algoliaAppId', 'algoliaSearchKey', 'refinementsOrder'],
+    props: ['baseUrl', 'algoliaIndexName', 'algoliaAppId', 'algoliaSearchKey', 'algoliaRoutingRefinements', 'refinementsOrder'],
 
     components: {
         AisInstantSearch,
@@ -57,7 +113,8 @@ export default {
                 this.algoliaAppId,
                 this.algoliaSearchKey
             ),
-            routing: routing
+            routing: getRouting(this.algoliaIndexName, this.algoliaRoutingRefinements),
+            middlewares: [middleware]
         };
     },
 
@@ -66,7 +123,8 @@ export default {
     },
 
 
-    methods: {},
+    methods: {
+    },
 
     watch: {}
 

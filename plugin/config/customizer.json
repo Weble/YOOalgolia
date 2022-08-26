@@ -19,6 +19,10 @@
                 "algolia.index_name": {
                     "label": "Index Name",
                     "description": "Algolia Index Name"
+                },
+                "algolia.routing_refinements": {
+                    "label": "Routing Refinements",
+                    "description": "Algolia Routing Refinements"
                 }
             }
         }
