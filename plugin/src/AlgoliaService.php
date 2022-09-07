@@ -83,7 +83,7 @@ class AlgoliaService
         return $this->indexName;
     }
 
-    public function routingRefinements(): ?string
+    public function routingRefinements(): ?array
     {
         return $this->routingRefinements;
     }

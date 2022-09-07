@@ -13,7 +13,7 @@ $attrs['id'] = $attrs['id'] ?? 'algolia-' . $node->id;
         algolia-app-id="<?php echo $config['app_id']; ?>"
         algolia-search-key="<?php echo $config['search_key']; ?>"
         algolia-index-name="<?php echo $config['index_name']; ?>"
-        algolia-routing-refinements="<?php echo $config['routing_refinements']; ?>"
+        algolia-routing-refinements=<?php echo $node->routing; ?>
         inline-template
     >
         <ais-instant-search

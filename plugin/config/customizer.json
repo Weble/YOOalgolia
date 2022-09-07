@@ -22,7 +22,28 @@
                 },
                 "algolia.routing_refinements": {
                     "label": "Routing Refinements",
-                    "description": "Algolia Routing Refinements"
+                    "type": "yooessentials-settings-panels",
+                    "modal": true,
+                    "options": {
+                        "": {
+                            "panel": "algolia-routing-refinements",
+                            "title": {
+                                "prop": "field",
+                                "default" :"field"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "algolia-routing-refinements": {
+            "title": "Facet Names Override",
+            "fields": {
+                "field": {
+                    "label": "Field"
+                },
+                "name": {
+                    "label": "Name"
                 }
             }
         }

@@ -25,9 +25,47 @@
         "placeholder": {
             "label": "Placeholder"
         },
-        "limit": {
-            "label": "Limit Facets",
-            "type": "number"
+        "facets": {
+            "label": "Facets",
+            "type": "yooessentials-settings-panels",
+            "modal": true,
+            "options": {
+                "": {
+                    "panel": "algolia-configure-searchable-facets",
+                    "title": {
+                        "prop": "field",
+                        "default" :"field"
+                    }
+                }
+            }
+        },
+        "attributes_override": {
+            "label": "Facet Names Override",
+            "type": "yooessentials-settings-panels",
+            "modal": true,
+            "options": {
+                "": {
+                    "panel": "algolia-configure-attributes-override",
+                    "title": {
+                        "prop": "field",
+                        "default" :"field"
+                    }
+                }
+            }
+        },
+        "filters": {
+            "label": "Set Configure Filters",
+            "type": "yooessentials-settings-panels",
+            "modal": true,
+            "options": {
+                "": {
+                    "panel": "algolia-configure-filters",
+                    "title": {
+                        "prop": "field",
+                        "default" :"field"
+                    }
+                }
+            }
         },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
@@ -73,8 +111,9 @@
                     "title": "Settings",
                     "fields": [
                         "placeholder",
-                        "facet",
-                        "limit"
+                        "facets",
+                        "filters",
+                        "attributes_override"
                     ]
                 },
                 {
@@ -104,6 +143,59 @@
                 },
                 "${builder.advanced}"
             ]
+        }
+    },
+    "panels": {
+        "algolia-configure-filters": {
+            "title": "Filters",
+            "fields": {
+                "field": {
+                    "label": "Field"
+                },
+                "value": {
+                    "label": "Value",
+                    "source": true
+                },
+                "source": {
+                    "type": "fields",
+                    "fields": {
+                        "_source": {
+                            "label": "Dynamic Condition",
+                            "type": "source-select",
+                            "description": "Select a source to make its fields available for mapping in the condition configuration"
+                        },
+                        "_sourceArgs": {
+                            "type": "source-query-arg"
+                        },
+                        "_sourceFieldArgs": {
+                            "type": "source-field-arg"
+                        },
+                        "_sourceFieldDirectives": {
+                            "type": "source-field-directive"
+                        }
+                    }
+                }
+            }
+        },
+        "algolia-configure-searchable-facets": {
+            "title": "Facets",
+            "fields": {
+                "field": {
+                    "label": "Field"
+                }
+            }
+        },
+
+        "algolia-configure-attributes-override": {
+            "title": "Facet Names Override",
+            "fields": {
+                "field": {
+                    "label": "Field"
+                },
+                "name": {
+                    "label": "Name"
+                }
+            }
         }
     }
 }

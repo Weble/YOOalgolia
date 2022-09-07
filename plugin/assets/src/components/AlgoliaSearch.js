@@ -10,13 +10,21 @@ import {
     AisStats,
     AisSearchBox,
     AisSortBy,
+    AisToggleRefinement,
+    AisHierarchicalMenu
 } from 'vue-instantsearch';
+
+//import MultipleRefinementList from './MultipleRefinementList.vue';
 
 import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
 
 function getRouting(indexName, routingRefinements) {
 
-    const refinements = routingRefinements.split(',');
+
+    const refinements = JSON.parse(routingRefinements);
+
+
+
 
     return {
         router: historyRouter(),
@@ -25,23 +33,18 @@ function getRouting(indexName, routingRefinements) {
 
                 let indexState = uiState[indexName];
 
-                /* PROCESS */
-
                 let state = {};
 
                 refinements.forEach(function (refinement) {
 
-                    var param = refinement.split(':');
-
-                    if (indexState.refinementList && indexState.refinementList[param[1]]) {
-                        state[param[0]] = indexState.refinementList[param[1]].join(',')
+                    if (indexState.refinementList && indexState.refinementList[refinement.field]) {
+                        state[refinement.name] = indexState.refinementList[refinement.field].join(',')
                     }
                 });
 
                 state['query'] = indexState.query;
                 state['page'] = indexState.page;
                 state['sortBy'] = indexState.sortBy;
-
 
                 return state;
             },
@@ -51,12 +54,8 @@ function getRouting(indexName, routingRefinements) {
 
                 refinements.forEach(function (refinement) {
 
-                    var param = refinement.split(':');
-
-                    routeState[param[0]]
-
-                    if (routeState[param[0]]) {
-                        refinementList[param[1]] = routeState[param[0]].split(',');
+                    if (routeState[refinement.name]) {
+                        refinementList[refinement.field] = routeState[refinement.name].split(',');
                     }
                 });
 
@@ -105,6 +104,8 @@ export default {
         AisStats,
         AisSearchBox,
         AisSortBy,
+        AisToggleRefinement,
+        AisHierarchicalMenu
     },
 
     data() {
@@ -114,7 +115,9 @@ export default {
                 this.algoliaSearchKey
             ),
             routing: getRouting(this.algoliaIndexName, this.algoliaRoutingRefinements),
-            middlewares: [middleware]
+            middlewares: [middleware],
+            searchableFacets: [],
+            filters: []
         };
     },
 
@@ -124,6 +127,85 @@ export default {
 
 
     methods: {
+
+        renameAttributes: function(attribute, data) {
+
+            if (! data[attribute]) {
+                return attribute;
+            }
+
+            return data[attribute];
+        },
+
+        searchForFacets: async function(facets, value) {
+            if (value == '' || facets.length == 0) {
+                this.searchableFacets = [];
+                return;
+            }
+
+            let index = this.searchClient.initIndex(this.algoliaIndexName);
+
+            let results = [];
+
+            for (const facet of facets) {
+                var result = await index.searchForFacetValues(facet, value);
+                for (const value of result.facetHits) {
+                    value.facet = facet
+                    results.push(value);
+                }
+            }
+
+            this.searchableFacets = results;
+
+        },
+
+
+        getSearchableFacets: function() {
+            return this.searchableFacets;
+        },
+
+        toggleFilter: function(facet, value) {
+
+
+            for (var i = 0; i < this.filters.length; i++) {
+                if (this.filters[i].attribute == facet && this.filters[i].value == value) {
+                    this.filters.splice(i, 1);
+                    return;
+                }
+            }
+
+            this.filters.push({
+                attribute: facet,
+                value: value
+            });
+        },
+
+        getFilters: function() {
+            return this.filters;
+        },
+
+        getFormattedFilters: function(additionalFilters = '') {
+
+            let ff = [];
+            for (const filter of this.filters) {
+
+                ff.push(filter.attribute +":'"+ filter.value +"'")
+            }
+
+            if (!additionalFilters) {
+                return ff.join(' OR ');
+            }
+
+            if (this.filters.length == 0) {
+                return additionalFilters;
+            }
+
+            return additionalFilters + ' AND (' + ff.join(' OR ') + ')';
+
+        }
+
+
+
     },
 
     watch: {}

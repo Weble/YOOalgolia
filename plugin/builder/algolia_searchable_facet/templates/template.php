@@ -1,53 +1,35 @@
 <?php
-$el = $this->el('div', []);
+$el = $this->el('div', [ 'class' => ['searchableRefinements']]);
 
 $search = $this->el('input', [
     'class' => ['uk-input', 'refinementSearch'],
-    '@input' => 'searchForItems($event.currentTarget.value)',
+    '@input' => 'searchForFacets('. $node->filters .', $event.currentTarget.value); dropdown = true',
     'placeholder' => $props['placeholder'] ?? ''
 ]);
 
 ?>
 
+
 <?= $el($props, $attrs); ?>
-<ais-refinement-list
-        attribute="<?= $props['facet'] ?>"
-        limit="<?= $props['limit'] ?>"
-        searchable
->
-    <div
-        slot-scope="{
-            items,
-            isShowingMore,
-            isFromSearch,
-            canToggleShowMore,
-            refine,
-            createURL,
-            toggleShowMore,
-            searchForItems,
-            sendEvent,
-        }"
+    <ul class="uk-flex uk-subnav">
 
-        class="uk-position-relative"
+        <li v-for="filter in filters"><a @click="toggleFilter(filter.attribute, filter.value)">{{ filter.value }}</a></li>
+
+        <li><?= $search($props, $attrs); ?></li>
+    </ul>
+
+
+    <div class="uk-dropdown uk-open"
+         v-show="searchableFacets.length && dropdown"
     >
-
-        <?= $search($props, $attrs); ?>
-
-        <div class="uk-dropdown uk-open" v-if="isFromSearch">
-            <ul class="uk-list">
-                <li v-if="!items.length">No results.</li>
-                <li v-for="item in items" :key="item.value" v-if="isFromSearch">
-                    <a
-                        :href="createURL(item)"
-                        :style="{ fontWeight: item.isRefined ?  'bold' : '' }"
-                        @click.prevent="refine(item.value)"
-                    >
-                        {{ item.label }}
-                    </a>
-                </li>
-            </ul>
-        </div>
-
+        <ul class="uk-list">
+            <li v-for="facet in searchableFacets" >
+                <a @click="toggleFilter(facet.facet, facet.value); dropdown = false">{{ renameAttributes(facet.facet, <?= $node->facet_names ?>) }}: {{ facet.value }}</a>
+            </li>
+        </ul>
     </div>
-</ais-refinement-list>
+
+    <ais-configure
+        v-bind="{filters: getFormattedFilters('<?php echo $node->other_filters; ?>')}"
+    />
 <?= $el->end(); ?>
