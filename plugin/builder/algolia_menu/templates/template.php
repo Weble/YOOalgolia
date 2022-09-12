@@ -40,32 +40,68 @@ $buttonAttrs = [
 <?= $el($props); ?>
 
 <ais-hierarchical-menu
-        :attributes='<?php echo $node->facets; ?>'
-        limit="<?= $props['limit'] ?>"
+    :attributes='<?php echo $node->facets; ?>'
+    limit="<?= $props['limit'] ?>"
 
-        <?php if ($props['show_more'] ?? true): ?>
-            :show-more-limit="<?= $props['show_more_limit'] ?? 50; ?>"
-            show-more
-        <?php endif; ?>
+    <?php if ($props['show_more'] ?? true): ?>
+        :show-more-limit="<?= $props['show_more_limit'] ?? 50; ?>"
+        show-more
+    <?php endif; ?>
 
 />
 
-    <div
-            v-slot="{
-          items,
-          canToggleShowMore,
-          isShowingMore,
-          refine,
-          toggleShowMore,
-          createURL,
-          sendEvent,
+    <template
+        v-slot="{
+            items,
+            canToggleShowMore,
+            isShowingMore,
+            refine,
+            toggleShowMore,
+            createURL,
+            sendEvent
         }"
     >
-        <hierarchical-menu-list
-                :items="items"
-                :refine="refine"
-                :createURL="createURL"
-        />
+
+        <ul class="uk-list uk-list-small facet-filters">
+            <li v-for="item in items" :key="item.value">
+
+
+                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
+                    <input
+                            class="uk-checkbox uk-margin-small-right"
+                            type="checkbox"
+                            :value="item.value"
+                            :checked="item.isRefined"
+                            @change="refine(item.value)"
+                    />
+                    <span class="uk-flex-1">{{ item.label }}</span>
+                    <span class="uk-padding-small-left">{{ item.count }}</span>
+                </label>
+
+
+                <ul v-if="item.data" class="uk-list uk-list small facet-filters uk-margin-left">
+                    <li v-for="subitem in item.data" :key="subitem.value">
+
+
+                        <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
+                            <input
+                                    class="uk-checkbox uk-margin-small-right"
+                                    type="checkbox"
+                                    :value="subitem.value"
+                                    :checked="subitem.isRefined"
+                                    @change="refine(subitem.value)"
+                            />
+                            <span class="uk-flex-1">{{ subitem.label }}</span>
+                            <span class="uk-padding-small-left">{{ subitem.count }}</span>
+                        </label>
+
+
+                    </li>
+                </ul>
+
+            </li>
+        </ul>
+
 
         <?php if ($props['show_more'] ?? true): ?>
             <?= $button($props, $buttonAttrs) ?>
@@ -99,7 +135,8 @@ $buttonAttrs = [
             <?= $button->end(); ?>
         <?php endif; ?>
 
-    </div>
+
+    </template>
 
 </ais-hierarchical-menu>
 

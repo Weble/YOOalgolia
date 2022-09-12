@@ -4,6 +4,7 @@ $el = $this->el('div', [ 'class' => ['searchableRefinements']]);
 $search = $this->el('input', [
     'class' => ['uk-input', 'refinementSearch'],
     '@input' => 'searchForFacets('. $node->filters .', $event.currentTarget.value); dropdown = true',
+    '@keydown.delete' => 'popFacet($event)',
     'placeholder' => $props['placeholder'] ?? ''
 ]);
 

@@ -20,11 +20,7 @@ import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
 
 function getRouting(indexName, routingRefinements) {
 
-
     const refinements = JSON.parse(routingRefinements);
-
-
-
 
     return {
         router: historyRouter(),
@@ -40,6 +36,12 @@ function getRouting(indexName, routingRefinements) {
                     if (indexState.refinementList && indexState.refinementList[refinement.field]) {
                         state[refinement.name] = indexState.refinementList[refinement.field].join(',')
                     }
+
+                    if (indexState.hierarchicalMenu && indexState.hierarchicalMenu[refinement.field]) {
+                        state[refinement.name] = indexState.hierarchicalMenu[refinement.field].join(',')
+                    }
+
+
                 });
 
                 state['query'] = indexState.query;
@@ -52,10 +54,13 @@ function getRouting(indexName, routingRefinements) {
 
                 let refinementList = {};
 
+                let hierarchicalMenu = {};
+
                 refinements.forEach(function (refinement) {
 
                     if (routeState[refinement.name]) {
                         refinementList[refinement.field] = routeState[refinement.name].split(',');
+                        hierarchicalMenu[refinement.field] = routeState[refinement.name].split(',');
                     }
                 });
 
@@ -65,6 +70,7 @@ function getRouting(indexName, routingRefinements) {
                     query: routeState.query,
                     page: routeState.page,
                     refinementList: refinementList,
+                    hierarchicalMenu: hierarchicalMenu,
                     sortBy: routeState.sortBy
                 }
 
@@ -137,7 +143,25 @@ export default {
             return data[attribute];
         },
 
+        popFacet: function (event) {
+
+            if (event.key != 'Backspace') {
+                return;
+            }
+
+            let value = event.target.value;
+
+            if (value.length > 0) {
+                return;
+            }
+
+            this.filters.pop();
+
+        },
+
+
         searchForFacets: async function(facets, value) {
+
             if (value == '' || facets.length == 0) {
                 this.searchableFacets = [];
                 return;
@@ -158,7 +182,6 @@ export default {
             this.searchableFacets = results;
 
         },
-
 
         getSearchableFacets: function() {
             return this.searchableFacets;
