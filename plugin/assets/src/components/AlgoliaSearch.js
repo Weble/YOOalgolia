@@ -1,4 +1,7 @@
 import algoliasearch from 'algoliasearch/lite';
+import VueSlider from 'vue-slider-component';
+import 'vue-slider-component/theme/default.css';
+
 import {
     AisConfigure,
     AisCurrentRefinements,
@@ -11,7 +14,8 @@ import {
     AisSearchBox,
     AisSortBy,
     AisToggleRefinement,
-    AisHierarchicalMenu
+    AisHierarchicalMenu,
+    AisRangeInput
 } from 'vue-instantsearch';
 
 //import MultipleRefinementList from './MultipleRefinementList.vue';
@@ -111,7 +115,9 @@ export default {
         AisSearchBox,
         AisSortBy,
         AisToggleRefinement,
-        AisHierarchicalMenu
+        AisHierarchicalMenu,
+        AisRangeInput,
+        VueSlider
     },
 
     data() {
@@ -225,9 +231,14 @@ export default {
 
             return additionalFilters + ' AND (' + ff.join(' OR ') + ')';
 
+        },
+
+        toValue(value, range) {
+            return [
+                typeof value.min === "number" ? value.min : range.min,
+                typeof value.max === "number" ? value.max : range.max,
+            ];
         }
-
-
 
     },
 

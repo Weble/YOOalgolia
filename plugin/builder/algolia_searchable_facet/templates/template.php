@@ -14,7 +14,7 @@ $search = $this->el('input', [
 <?= $el($props, $attrs); ?>
     <ul class="uk-flex uk-subnav">
 
-        <li v-for="filter in filters"><a @click="toggleFilter(filter.attribute, filter.value)">{{ filter.value }}</a></li>
+        <li v-for="filter in filters"><a @click="toggleFilter(filter.attribute, filter.value)">{{ renameAttributes(filter.attribute, <?= $node->facet_names ?>) }} {{ filter.value }}</a></li>
 
         <li><?= $search($props, $attrs); ?></li>
     </ul>
@@ -25,7 +25,7 @@ $search = $this->el('input', [
     >
         <ul class="uk-list">
             <li v-for="facet in searchableFacets" >
-                <a @click="toggleFilter(facet.facet, facet.value); dropdown = false">{{ renameAttributes(facet.facet, <?= $node->facet_names ?>) }}: {{ facet.value }}</a>
+                <a @click="toggleFilter(facet.facet, facet.value); dropdown = false; document.querySelector('.refinementSearch').value = null">{{ renameAttributes(facet.facet, <?= $node->facet_names ?>) }} {{ facet.value }}</a>
             </li>
         </ul>
     </div>

@@ -9,8 +9,6 @@ return [
 
             $excluded_facets = [];
 
-            if (!$node->props['excluded-attributes'])
-
             foreach ($node->props['excluded-attributes'] as $facet) {
 
                 $facet->props = (array) $facet->props;

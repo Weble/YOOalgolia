@@ -20,5 +20,8 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "author": "Weble",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "vue-slider-component": "^3.2.20"
+  }
 }

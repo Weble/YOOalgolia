@@ -18,6 +18,8 @@ $button = $this->el('a', [
 ?>
 
 <?= $el($props, $attrs); ?>
+
+
 <ais-current-refinements :excluded-attributes=<?php echo $node->excluded_facets; ?>>
     <div slot-scope="{ items, createURL }">
         <span v-for="item in items" :key="item.attribute">
