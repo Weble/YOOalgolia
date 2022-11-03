@@ -73,7 +73,7 @@ $buttonAttrs = [
             <?php endif ?>
             <?= $title->end() ?>
         <?php endif ?>
-        <ul class="uk-list uk-list-small facet-filters">
+        <ul class="uk-list uk-list-small">
             <li v-for="item in items" :key="item.value">
                 <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
                     <input

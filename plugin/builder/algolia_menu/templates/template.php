@@ -37,7 +37,7 @@ $buttonAttrs = [
 
 ?>
 
-<?= $el($props); ?>
+<?= $el($props, $attrs); ?>
 
 <ais-hierarchical-menu
     :attributes='<?php echo $node->facets; ?>'
