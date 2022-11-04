@@ -20,32 +20,17 @@ import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
 const routing = {
     router: historyRouter(),
     stateMapping: {
-        stateToRoute(uiState) {
-            /* uiState[~index_name~] */
-            const indexUiState = uiState['prod_products'] || {};
-            
+        stateToRoute({query, page}) {
             return {
-                query: indexUiState.query,
-                page: indexUiState.page,
-                category: indexUiState.refinementList && indexUiState.refinementList['primary_category.name.en-GB'],
-                exclusive: indexUiState.toggle && indexUiState.toggle['esclusiva.names'] || indexUiState.toggle && indexUiState.toggle['esclusiva.values'],
-                sortBy: indexUiState.sortBy
+                query: query,
+                page: page
             };
         },
-        routeToState(routeState) {
+        routeToState({query, page}) {
             return {
-                /* Index name */
-                prod_products: {
-                    query: routeState.query,
-                    page: routeState.page,
-                    refinementList: {
-                        'primary_category.name.en-GB': routeState.category
-                    },
-                    toggle: {
-                        'esclusiva.names': routeState.exclusive,
-                        'esclusiva.values': routeState.exclusive,
-                    },
-                    sortBy: routeState.sortBy
+                search: {
+                    query: query,
+                    page: page
                 }
             };
         }
@@ -90,29 +75,16 @@ export default {
     methods: {
 
         groupBy: function(xs, key, key1, key2) {
-            try {
-                return xs.reduce(function(rv, x) {
-                    (rv[x[key][key1][key2]] = rv[x[key][key1][key2]] || []).push(x);
-                    return rv;
-                }, {});
-            }
-            catch(err) {
-                let missing = [];
-                xs.forEach(item => {
-                    if (item['primary_category'] === null) {
-                        missing.push({ id: item.id, name: item.name })
-                    }
-                })
-
-                console.error("Missing item categories:");
-                console.error(missing);
-            }
+            return xs.reduce(function(rv, x) {
+                (rv[x[key][key1][key2]] = rv[x[key][key1][key2]] || []).push(x);
+                return rv;
+            }, {});
         },
 
-        // Used for range element
         formatMinValue: function(minValue, minRange) {
             return minValue !== null && minValue !== minRange ? minValue : '';
         },
+
         formatMaxValue: function(maxValue, maxRange) {
             return maxValue !== null && maxValue !== maxRange ? maxValue : '';
         },
