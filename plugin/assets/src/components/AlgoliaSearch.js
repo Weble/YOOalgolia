@@ -18,7 +18,48 @@ import {
 import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
 
 const routing = {
-    router: historyRouter(),
+    router: historyRouter(
+        {
+            createURL({qsModule, routeState, location}) {
+                const queryParameters = {};
+
+                if (routeState.query) {
+                    queryParameters.query = encodeURIComponent(routeState.query);
+                }
+                if (routeState.category) {
+                    queryParameters.category = routeState.category.map(encodeURIComponent);
+                }
+                if (routeState.exclusive) {
+                    queryParameters.exclusive = routeState.exclusive;
+                }
+                if (routeState.sortBy) {
+                    queryParameters.sortBy = routeState.sortBy;
+                }
+
+                const queryString = qsModule.stringify(queryParameters, {
+                    addQueryPrefix: true,
+                    arrayFormat: 'repeat',
+                });
+
+                return `${location.origin}${location.pathname}${queryString}`;
+            },
+
+            parseURL({qsModule, location}) {
+                const uiState = qsModule.parse(
+                    location.search.slice(1)
+                );
+
+                // `qs` does not return an array when there's a single value.
+                return {
+                    query: decodeURIComponent(uiState.query ?? ''),
+                    page: uiState.page,
+                    category: toArray(uiState.category).map(decodeURIComponent),
+                    exclusive: uiState.exclusive,
+                    sortBy: uiState.sortBy
+                };
+            },
+        }
+    ),
     stateMapping: {
         stateToRoute(uiState) {
             /* uiState[~index_name~] */
@@ -26,7 +67,7 @@ const routing = {
 
             return {
                 query: indexUiState.query,
-                page: indexUiState.page,
+                //page: indexUiState.page,
                 category: indexUiState.refinementList && indexUiState.refinementList['primary_category.name.en-GB'],
                 exclusive: indexUiState.toggle && indexUiState.toggle['esclusiva.names'] || indexUiState.toggle && indexUiState.toggle['esclusiva.values'],
                 sortBy: indexUiState.sortBy
@@ -37,7 +78,7 @@ const routing = {
                 /* Index name */
                 prod_products: {
                     query: routeState.query,
-                    page: routeState.page,
+                    //page: routeState.page,
                     refinementList: {
                         'primary_category.name.en-GB': routeState.category
                     },
@@ -51,6 +92,13 @@ const routing = {
         }
     }
 };
+
+
+const toArray = function(array) {
+    return Array.isArray(array)
+        ? array
+        : [array].filter(Boolean);
+}
 
 export default {
 
