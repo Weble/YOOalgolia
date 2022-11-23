@@ -1,29 +1,37 @@
 {
     "@import": "./element.php",
-    "name": "algolia_active_filters",
-    "title": "Active Filters",
+    "name": "algolia_searchable_facet",
+    "title": "Searchable Facet Filter",
     "group": "Algolia",
     "icon": "${url:svg/icon.svg}",
     "iconSmall": "${url:svg/iconSmall.svg}",
     "element": true,
     "width": 500,
     "defaults": {
-        "close_icon": "close",
-        "button_style": "primary",
-        "icon_align": "right"
+        "content_more": "Show More",
+        "content_less": "Show Less",
+        "icon": "close",
+        "icon_less": "close",
+        "button_style": "default",
+        "icon_align": "right",
+        "title_element": "h6",
+        "limit": 10
     },
     "templates": {
         "render": "./templates/template.php",
         "content": "./templates/content.php"
     },
     "fields": {
-        "excluded-attributes": {
-            "label": "Excluded Facets",
+        "placeholder": {
+            "label": "Placeholder"
+        },
+        "facets": {
+            "label": "Facets",
             "type": "yooessentials-settings-panels",
             "modal": true,
             "options": {
                 "": {
-                    "panel": "algolia-active-filters-excluded-facets",
+                    "panel": "algolia-configure-searchable-facets",
                     "title": {
                         "prop": "field",
                         "default" :"field"
@@ -31,57 +39,27 @@
                 }
             }
         },
-        "button_style": {
-            "label": "Style",
-            "description": "Set the button style.",
-            "type": "select",
-            "options": {
-                "Default": "default",
-                "Primary": "primary",
-                "Secondary": "secondary",
-                "Danger": "danger",
-                "Text": "text",
-                "Link": "",
-                "Link Muted": "link-muted",
-                "Link Text": "link-text"
-            }
-        },
-        "button_size": {
-            "label": "Size",
-            "type": "select",
-            "options": {
-                "Small": "small",
-                "Default": "",
-                "Large": "large"
-            }
-        },
-        "fullwidth": {
-            "type": "checkbox",
-            "text": "Full width button"
-        },
-        "close_icon": {
-            "label": "Remove Filter Icon",
-            "description": "Pick an optional icon.",
-            "type": "icon",
-            "source": true
-        },
-        "icon_align": {
-            "label": "Alignment",
-            "description": "Choose the icon position.",
-            "type": "select",
-            "options": {
-                "Left": "left",
-                "Right": "right"
-            },
-            "enable": "close_icon"
-        },
         "attributes_override": {
             "label": "Facet Names Override",
             "type": "yooessentials-settings-panels",
             "modal": true,
             "options": {
                 "": {
-                    "panel": "algolia-active-filters-attributes-override",
+                    "panel": "algolia-configure-attributes-override",
+                    "title": {
+                        "prop": "field",
+                        "default" :"field"
+                    }
+                }
+            }
+        },
+        "filters": {
+            "label": "Set Configure Filters",
+            "type": "yooessentials-settings-panels",
+            "modal": true,
+            "options": {
+                "": {
+                    "panel": "algolia-configure-filters",
                     "title": {
                         "prop": "field",
                         "default" :"field"
@@ -132,12 +110,9 @@
                 {
                     "title": "Settings",
                     "fields": [
-                        "excluded-attributes",
-                        "close_icon",
-                        "icon_align",
-                        "button_style",
-                        "button_size",
-                        "fullwidth",
+                        "placeholder",
+                        "facets",
+                        "filters",
                         "attributes_override"
                     ]
                 },
@@ -171,7 +146,47 @@
         }
     },
     "panels": {
-        "algolia-active-filters-attributes-override": {
+        "algolia-configure-filters": {
+            "title": "Filters",
+            "fields": {
+                "field": {
+                    "label": "Field"
+                },
+                "value": {
+                    "label": "Value",
+                    "source": true
+                },
+                "source": {
+                    "type": "fields",
+                    "fields": {
+                        "_source": {
+                            "label": "Dynamic Condition",
+                            "type": "source-select",
+                            "description": "Select a source to make its fields available for mapping in the condition configuration"
+                        },
+                        "_sourceArgs": {
+                            "type": "source-query-arg"
+                        },
+                        "_sourceFieldArgs": {
+                            "type": "source-field-arg"
+                        },
+                        "_sourceFieldDirectives": {
+                            "type": "source-field-directive"
+                        }
+                    }
+                }
+            }
+        },
+        "algolia-configure-searchable-facets": {
+            "title": "Facets",
+            "fields": {
+                "field": {
+                    "label": "Field"
+                }
+            }
+        },
+
+        "algolia-configure-attributes-override": {
             "title": "Facet Names Override",
             "fields": {
                 "field": {
@@ -179,14 +194,6 @@
                 },
                 "name": {
                     "label": "Name"
-                }
-            }
-        },
-        "algolia-active-filters-excluded-facets": {
-            "title": "Facet Names Override",
-            "fields": {
-                "field": {
-                    "label": "Field"
                 }
             }
         }

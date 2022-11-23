@@ -20,10 +20,12 @@ class AlgoliaService
     public function __construct(array $config)
     {
         $themeConfig = app(Config::class)->get('~theme.algolia', []);
+
         $this->appId = $config['app_id'] ?? $themeConfig['app_id'] ?? '';
         $this->adminKey = $config['admin_key'] ?? $themeConfig['admin_key'] ?? '';
         $this->searchKey = $config['search_key'] ?? $themeConfig['search_key'] ?? '';
         $this->indexName = $config['index_name'] ?? $themeConfig['index_name'] ?? '';
+        $this->routingRefinements = $config['routing_refinements'] ?? $themeConfig['routing_refinements'] ?? '';
     }
 
     public function setCredentials(string $appId, string $adminKey, string $searchKey): self
@@ -81,6 +83,11 @@ class AlgoliaService
         return $this->indexName;
     }
 
+    public function routingRefinements(): ?array
+    {
+        return $this->routingRefinements;
+    }
+
     public function config(): array
     {
         return [
@@ -88,6 +95,7 @@ class AlgoliaService
             'admin_key'  => $this->adminKey(),
             'search_key' => $this->searchKey(),
             'index_name' => $this->indexName(),
+            'routing_refinements' => $this->routingRefinements()
         ];
     }
 

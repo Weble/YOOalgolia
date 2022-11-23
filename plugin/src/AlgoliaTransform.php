@@ -45,7 +45,6 @@ class AlgoliaTransform
             'props' => $config
             ]), ['context' => 'render']);
 
-
         $algoliaNode->config = $config;
         $algoliaNode->children = $node->children;
 

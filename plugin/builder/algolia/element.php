@@ -16,6 +16,18 @@ return [
             $algolia = new AlgoliaService($node->props);
             $metadata->set('script:algolia-element', ['src' => "plugins/system/yooalgolia/assets/algolia.min.js", 'defer' => true]);
 
+            $routing = [];
+            foreach ($node->props['routing_refinements'] as $refinement) {
+
+                $refinement = (array) $refinement->props;
+               $routing[] = [
+                   'field' => $refinement['field'],
+                   'name' => $refinement['name']
+               ];
+            }
+            $node->routing = json_encode($routing);
+
+
             $node->algolia = $algolia->config();
         }
 

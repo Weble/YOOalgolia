@@ -51,7 +51,7 @@ $buttonAttrs = [
     <?php endif; ?>
 >
     <div
-            slot-scope="{
+        slot-scope="{
           items,
           isShowingMore,
           isFromSearch,
