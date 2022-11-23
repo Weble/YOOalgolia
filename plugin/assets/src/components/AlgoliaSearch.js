@@ -25,8 +25,26 @@ function getRouting(indexName, routingRefinements) {
 
     const refinements = JSON.parse(routingRefinements);
 
+    let tmpRouter = historyRouter();
+
     return {
-        router: historyRouter(),
+        router: historyRouter(
+            {
+                createURL({qsModule, routeState, location}) {
+
+                    let url = tmpRouter.createURL({qsModule, routeState, location});
+                    let q = qsModule.parse(url);
+
+                    console.log(url);
+
+                    const queryString = qsModule.stringify(q.queryParameters, {
+                        addQueryPrefix: true,
+                        arrayFormat: 'repeat',
+                    });
+
+                    return `${location.origin}${location.pathname}${queryString}`;
+                },
+            }),
         stateMapping: {
             stateToRoute(uiState) {
 
@@ -84,10 +102,10 @@ function getRouting(indexName, routingRefinements) {
 }
 
 
-function middleware({ instantSearchInstance }) {
+function middleware({instantSearchInstance}) {
 
     return {
-        onStateChange({ uiState }) {
+        onStateChange({uiState}) {
         },
         subscribe() {
             return
@@ -140,9 +158,9 @@ export default {
 
     methods: {
 
-        renameAttributes: function(attribute, data) {
+        renameAttributes: function (attribute, data) {
 
-            if (! data[attribute]) {
+            if (!data[attribute]) {
                 return attribute;
             }
 
@@ -165,7 +183,7 @@ export default {
 
         },
 
-        searchForFacets: async function(facets, value) {
+        searchForFacets: async function (facets, value) {
 
             if (value == '' || facets.length == 0) {
                 this.searchableFacets = [];
@@ -188,11 +206,11 @@ export default {
 
         },
 
-        getSearchableFacets: function() {
+        getSearchableFacets: function () {
             return this.searchableFacets;
         },
 
-        toggleFilter: function(facet, value) {
+        toggleFilter: function (facet, value) {
 
 
             for (var i = 0; i < this.filters.length; i++) {
@@ -208,16 +226,16 @@ export default {
             });
         },
 
-        getFilters: function() {
+        getFilters: function () {
             return this.filters;
         },
 
-        getFormattedFilters: function(additionalFilters = '') {
+        getFormattedFilters: function (additionalFilters = '') {
 
             let ff = [];
             for (const filter of this.filters) {
 
-                ff.push(filter.attribute +":'"+ filter.value +"'")
+                ff.push(filter.attribute + ":'" + filter.value + "'")
             }
 
             if (!additionalFilters) {
@@ -239,22 +257,22 @@ export default {
             ];
         },
 
-        groupBy: function(xs, key, key1, key2) {
-            return xs.reduce(function(rv, x) {
+        groupBy: function (xs, key, key1, key2) {
+            return xs.reduce(function (rv, x) {
                 (rv[x[key][key1][key2]] = rv[x[key][key1][key2]] || []).push(x);
                 return rv;
             }, {});
         },
 
-        formatMinValue: function(minValue, minRange) {
+        formatMinValue: function (minValue, minRange) {
             return minValue !== null && minValue !== minRange ? minValue : '';
         },
 
-        formatMaxValue: function(maxValue, maxRange) {
+        formatMaxValue: function (maxValue, maxRange) {
             return maxValue !== null && maxValue !== maxRange ? maxValue : '';
         },
 
-        truncate: function(text, length, clamp){
+        truncate: function (text, length, clamp) {
             clamp = clamp || '...';
             let node = document.createElement('div');
             node.innerHTML = text;
