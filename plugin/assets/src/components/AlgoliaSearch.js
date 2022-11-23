@@ -164,7 +164,7 @@ export default {
             this.filters.pop();
 
         },
-        
+
         searchForFacets: async function(facets, value) {
 
             if (value == '' || facets.length == 0) {
