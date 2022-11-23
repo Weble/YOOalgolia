@@ -16,7 +16,7 @@ return [
             }
 
             $node->facets = json_encode($facets);
-
+            $node->facets_count = count($facets);
         }
 
     ],

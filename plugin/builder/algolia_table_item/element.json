@@ -1,15 +1,14 @@
 {
-    "@import": "./element.php",
-    "name": "algolia_sort_item",
+    "name": "algolia_table_column",
     "title": "Item",
     "width": 500,
     "fields": {
-        "item_value": {
-            "label": "Value",
+        "title": {
+            "label": "Column Heading",
             "source": true
         },
-        "item_label": {
-            "label": "Title",
+        "value": {
+            "label": "Algolia Value",
             "source": true
         },
         "status": "${builder.statusItem}",
@@ -20,10 +19,10 @@
             "type": "tabs",
             "fields": [
                 {
-                    "title": "Settings",
+                    "title": "Content",
                     "fields": [
-                        "item_value",
-                        "item_label"
+                        "title",
+                        "value"
                     ]
                 },
                 "${builder.advancedItem}"

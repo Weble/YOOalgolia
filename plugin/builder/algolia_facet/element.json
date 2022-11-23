@@ -17,7 +17,12 @@
         "show_more": "1",
         "show_more_limit": "50",
         "title_element": "h6",
-        "limit": 10
+        "limit": 10,
+        "enable_all_button": true,
+        "all_button_text": "All",
+        "facet_type": "Checkbox",
+        "sort_by": "isRefined:desc",
+        "sort_by_fallback": "name:asc"
     },
     "templates": {
         "render": "./templates/template.php",
@@ -100,6 +105,19 @@
                 "Background": "background"
             }
         },
+        "facet_type": {
+            "label": "Facet Type",
+            "type": "select",
+            "options": {
+                "Checkbox": "checkbox",
+                "Radio": "radio"
+            }
+        },
+        "item_count": {
+            "label": "Show item count",
+            "type": "checkbox",
+            "text": "Enable"
+        },
         "limit": {
             "label": "Limit Facets",
             "type": "number"
@@ -179,6 +197,40 @@
             },
             "enable": "show_more"
         },
+        "enable_all_button": {
+            "label": "Enable All Button",
+            "type": "checkbox",
+            "text": "Enable"
+        },
+        "all_button_text": {
+            "label": "All Button Text",
+            "enable": "enable_all_button"
+        },
+        "sort_by": {
+            "label": "Primary",
+            "type": "select",
+            "options": {
+                "Hits Count (Desc)": "count:desc",
+                "Hits Count (Asc)": "count:asc",
+                "Name (Desc)": "name:desc",
+                "Name (Asc)": "name:asc",
+                "Is Refined (Desc)": "isRefined:desc",
+                "Is Refined (Asc)": "isRefined:asc"
+            }
+        },
+        "sort_by_fallback": {
+            "label": "Fallback",
+            "type": "select",
+            "options": {
+                "None": null,
+                "Hits Count (Desc)": "count:desc",
+                "Hits Count (Asc)": "count:asc",
+                "Name (Desc)": "name:desc",
+                "Name (Asc)": "name:asc",
+                "Is Refined (Desc)": "isRefined:desc",
+                "Is Refined (Asc)": "isRefined:asc"
+            }
+        },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
         "position_right": "${builder.position_right}",
@@ -222,7 +274,9 @@
                 {
                     "title": "Settings",
                     "fields": [
+                        "facet_type",
                         "facet",
+                        "item_count",
                         "limit",
                         {
                             "label": "Show More Button",
@@ -239,6 +293,24 @@
                                 "button_style",
                                 "button_size",
                                 "fullwidth"
+                            ]
+                        },
+                        {
+                            "label": "All Button",
+                            "type": "group",
+                            "divider": true,
+                            "fields": [
+                                "enable_all_button",
+                                "all_button_text"
+                            ]
+                        },
+                        {
+                            "label": "Sorting",
+                            "type": "group",
+                            "divider": true,
+                            "fields": [
+                                "sort_by",
+                                "sort_by_fallback"
                             ]
                         }
                     ]

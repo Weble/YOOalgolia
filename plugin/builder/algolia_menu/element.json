@@ -26,17 +26,13 @@
     "fields": {
         "facets": {
             "label": "Menu Facets",
-            "type": "yooessentials-settings-panels",
+            "type": "yooessentials-dataset-multi",
             "modal": true,
-            "options": {
-                "": {
-                    "panel": "algolia-menu-facets",
-                    "title": {
-                        "prop": "field",
-                        "default" :"field"
-                    }
-                }
-            }
+            "options": [{
+                "panel": "algolia-menu-facets",
+                "name": "algolia-menu-facets",
+                "title": "Facet"
+            }]
         },
         "title": {
             "label": "Facet Title",

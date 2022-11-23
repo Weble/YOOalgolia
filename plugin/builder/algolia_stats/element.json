@@ -1,64 +1,24 @@
 {
     "@import": "./element.php",
-    "name": "algolia_search",
-    "title": "Search Box",
+    "name": "algolia_stats",
+    "title": "Stats",
     "group": "Algolia",
     "icon": "${url:svg/icon.svg}",
     "iconSmall": "${url:svg/iconSmall.svg}",
     "element": true,
     "width": 500,
     "defaults": {
-        "placeholder": "Search..."
+        "text": "Page {page} of {nbPages} with {hitsPerPage} hits per page  -<br> {nbHits} hits retrieved in {processingTimeMS}ms for <q>{query}</q>"
     },
     "templates": {
         "render": "./templates/template.php",
         "content": "./templates/content.php"
     },
     "fields": {
-        "placeholder": {
-            "label": "Placeholder"
-        },
-        "submit-title": {
-            "label": "Submit Button Title"
-        },
-        "reset-title": {
-            "label": "Reset button Title"
-        },
-        "autofocus": {
-            "text": "Autofocus",
-            "type": "checkbox"
-        },
-        "loading": {
-            "text": "Show Loading Indicator",
-            "type": "checkbox"
-        },
-        "button_style": {
-            "label": "Style",
-            "description": "Set the button style.",
-            "type": "select",
-            "options": {
-                "Default": "default",
-                "Primary": "primary",
-                "Secondary": "secondary",
-                "Danger": "danger",
-                "Text": "text",
-                "Link": "",
-                "Link Muted": "link-muted",
-                "Link Text": "link-text"
-            }
-        },
-        "button_size": {
-            "label": "Size",
-            "type": "select",
-            "options": {
-                "Small": "small",
-                "Default": "",
-                "Large": "large"
-            }
-        },
-        "fullwidth": {
-            "type": "checkbox",
-            "text": "Full width button"
+        "text": {
+            "label": "Text",
+            "type": "editor",
+            "description": "Insert <code>{value}</code> to use dynamic algolia values.<br><code>{page}</code> - Current page.<br><code>{nbPages}</code> - Number of pages. <br> <code>{hitsPerPage}</code> - Number of results per page. <br> <code>{nbHits}</code> - Number of results. <br> <code>{processingTimeMS}</code> - Processing time in ms. <br> <code>{query}</code> - The query"
         },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
@@ -101,16 +61,9 @@
             "type": "tabs",
             "fields": [
                 {
-                    "title": "Settings",
+                    "title": "Content",
                     "fields": [
-                        "placeholder",
-                        "submit-title",
-                        "reset-title",
-                        "autofocus",
-                        "loading",
-                        "button_style",
-                        "button_size",
-                        "fullwidth"
+                        "text"
                     ]
                 },
                 {

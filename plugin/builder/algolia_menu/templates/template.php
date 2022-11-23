@@ -78,26 +78,7 @@ $buttonAttrs = [
                     <span class="uk-padding-small-left">{{ item.count }}</span>
                 </label>
 
-
-                <ul v-if="item.data" class="uk-list uk-list small facet-filters uk-margin-left">
-                    <li v-for="subitem in item.data" :key="subitem.value">
-
-
-                        <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
-                            <input
-                                    class="uk-checkbox uk-margin-small-right"
-                                    type="checkbox"
-                                    :value="subitem.value"
-                                    :checked="subitem.isRefined"
-                                    @change="refine(subitem.value)"
-                            />
-                            <span class="uk-flex-1">{{ subitem.label }}</span>
-                            <span class="uk-padding-small-left">{{ subitem.count }}</span>
-                        </label>
-
-
-                    </li>
-                </ul>
+                <?= $this->render("{$__dir}/template-items", ['facets' => $node->facets_count, 'jsVariable' => 'item', 'level' => 1]) ?>
 
             </li>
         </ul>
