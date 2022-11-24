@@ -35,8 +35,6 @@ function getRouting(indexName, routingRefinements) {
                     let url = tmpRouter.createURL({qsModule, routeState, location});
                     let q = qsModule.parse(url);
 
-                    console.log(url);
-
                     const queryString = qsModule.stringify(q.queryParameters, {
                         addQueryPrefix: true,
                         arrayFormat: 'repeat',
