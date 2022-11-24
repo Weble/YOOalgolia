@@ -16,6 +16,7 @@ class AlgoliaService
     private string $adminKey;
     private string $searchKey;
     private string $indexName;
+    private $routingRefinements;
 
     public function __construct(array $config)
     {
@@ -25,7 +26,7 @@ class AlgoliaService
         $this->adminKey = $config['admin_key'] ?? $themeConfig['admin_key'] ?? '';
         $this->searchKey = $config['search_key'] ?? $themeConfig['search_key'] ?? '';
         $this->indexName = $config['index_name'] ?? $themeConfig['index_name'] ?? '';
-        $this->routingRefinements = $config['routing_refinements'] ?? $themeConfig['routing_refinements'] ?? '';
+        $this->routingRefinements = $config['routing_refinements'] ?? $themeConfig['routing_refinements'] ?? [];
     }
 
     public function setCredentials(string $appId, string $adminKey, string $searchKey): self
