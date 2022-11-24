@@ -19,17 +19,10 @@
     "fields": {
         "excluded-attributes": {
             "label": "Excluded Facets",
-            "type": "yooessentials-settings-panels",
-            "modal": true,
-            "options": {
-                "": {
-                    "panel": "algolia-active-filters-excluded-facets",
-                    "title": {
-                        "prop": "field",
-                        "default" :"field"
-                    }
-                }
-            }
+            "type": "yooessentials-settings-panel",
+            "panel":  "algolia-active-filters-excluded-facets",
+            "emptyMsg": "No Exclusions Yet",
+            "button": "Add Exclusion"
         },
         "button_style": {
             "label": "Style",
@@ -77,17 +70,10 @@
         },
         "attributes_override": {
             "label": "Facet Names Override",
-            "type": "yooessentials-settings-panels",
-            "modal": true,
-            "options": {
-                "": {
-                    "panel": "algolia-active-filters-attributes-override",
-                    "title": {
-                        "prop": "field",
-                        "default" :"field"
-                    }
-                }
-            }
+            "type": "yooessentials-settings-panel",
+            "panel": "algolia-active-filters-attributes-override",
+            "emptyMsg": "No Overrides Yet",
+            "button": "Add Override"
         },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
@@ -174,7 +160,7 @@
         "algolia-active-filters-attributes-override": {
             "title": "Facet Names Override",
             "fields": {
-                "field": {
+                "title": {
                     "label": "Field"
                 },
                 "name": {
@@ -185,7 +171,7 @@
         "algolia-active-filters-excluded-facets": {
             "title": "Facet Names Override",
             "fields": {
-                "field": {
+                "title": {
                     "label": "Field"
                 }
             }

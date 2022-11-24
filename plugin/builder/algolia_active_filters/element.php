@@ -11,17 +11,18 @@ return [
 
             foreach ($node->props['excluded-attributes'] as $facet) {
 
-                $facet->props = (array) $facet->props;
+                $facet = (array) $facet;
+                $facet['field'] = $facet['title'] ?? null;
 
-                if (!isset($facet->props['field'])) {
+                if (!isset($facet['field'])) {
                     continue;
                 }
 
-                if (!$facet->props['field']) {
+                if (!$facet['field']) {
                     continue;
                 }
 
-                $excluded_facets[] = $facet->props['field'];
+                $excluded_facets[] = $facet['field'];
             }
 
             $node->excluded_facets = json_encode($excluded_facets);
@@ -32,17 +33,18 @@ return [
 
             foreach ($node->props['attributes_override'] as $facet) {
 
-                $facet->props = (array) $facet->props;
+                $facet = (array) $facet;
+                $facet['field'] = $facet['title'] ?? null;
 
-                if (!isset($facet->props['field']) || !isset($facet->props['name'])) {
+                if (!isset($facet['field']) || !isset($facet['name'])) {
                     continue;
                 }
 
-                if (!$facet->props['field'] || !$facet->props['name']) {
+                if (!$facet['field'] || !$facet['name']) {
                     continue;
                 }
 
-                $attributes[$facet->props['field']] = $facet->props['name'];
+                $attributes[$facet['field']] = $facet['name'];
             }
 
             $node->facet_names = json_encode($attributes);

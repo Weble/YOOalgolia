@@ -22,24 +22,17 @@
                 },
                 "algolia.routing_refinements": {
                     "label": "Routing Refinements",
-                    "type": "yooessentials-settings-panels",
-                    "modal": true,
-                    "options": {
-                        "": {
-                            "panel": "algolia-routing-refinements",
-                            "title": {
-                                "prop": "field",
-                                "default" :"field"
-                            }
-                        }
-                    }
+                    "type": "yooessentials-settings-panel",
+                    "panel": "algolia-routing-refinements",
+                    "emptyMsg": "No Refinements Yet",
+                    "button": "Add Refinement"
                 }
             }
         },
         "algolia-routing-refinements": {
             "title": "Facet Names Override",
             "fields": {
-                "field": {
+                "title": {
                     "label": "Field"
                 },
                 "name": {

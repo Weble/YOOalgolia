@@ -27,45 +27,24 @@
         },
         "facets": {
             "label": "Facets",
-            "type": "yooessentials-settings-panels",
-            "modal": true,
-            "options": {
-                "": {
-                    "panel": "algolia-configure-searchable-facets",
-                    "title": {
-                        "prop": "field",
-                        "default" :"field"
-                    }
-                }
-            }
+            "type": "yooessentials-settings-panel",
+            "panel":  "algolia-configure-searchable-facets",
+            "emptyMsg": "No Facets Yet",
+            "button": "Add Facet"
         },
         "attributes_override": {
             "label": "Facet Names Override",
-            "type": "yooessentials-settings-panels",
-            "modal": true,
-            "options": {
-                "": {
-                    "panel": "algolia-configure-attributes-override",
-                    "title": {
-                        "prop": "field",
-                        "default" :"field"
-                    }
-                }
-            }
+            "type": "yooessentials-settings-panel",
+            "panel": "algolia-configure-attributes-override",
+            "emptyMsg": "No Override Yet",
+            "button": "Add Override"
         },
         "filters": {
             "label": "Set Configure Filters",
-            "type": "yooessentials-settings-panels",
-            "modal": true,
-            "options": {
-                "": {
-                    "panel": "algolia-configure-filters",
-                    "title": {
-                        "prop": "field",
-                        "default" :"field"
-                    }
-                }
-            }
+            "type": "yooessentials-settings-panel",
+            "panel": "algolia-configure-filters",
+            "emptyMsg": "No Configuration Yet",
+            "button": "Add Configuration"
         },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
@@ -149,7 +128,7 @@
         "algolia-configure-filters": {
             "title": "Filters",
             "fields": {
-                "field": {
+                "title": {
                     "label": "Field"
                 },
                 "value": {
@@ -180,7 +159,7 @@
         "algolia-configure-searchable-facets": {
             "title": "Facets",
             "fields": {
-                "field": {
+                "title": {
                     "label": "Field"
                 }
             }
@@ -189,7 +168,7 @@
         "algolia-configure-attributes-override": {
             "title": "Facet Names Override",
             "fields": {
-                "field": {
+                "title": {
                     "label": "Field"
                 },
                 "name": {

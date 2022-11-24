@@ -19,14 +19,15 @@ return [
             $routing = [];
             foreach ($node->props['routing_refinements'] as $refinement) {
 
-                $refinement = (array) $refinement->props;
-               $routing[] = [
+                $refinement = (array) $refinement;
+                $refinement['field'] = $refinement['title'] ?? null;
+
+                $routing[] = [
                    'field' => $refinement['field'],
                    'name' => $refinement['name']
                ];
             }
             $node->routing = json_encode($routing);
-
 
             $node->algolia = $algolia->config();
         }

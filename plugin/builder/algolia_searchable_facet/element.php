@@ -16,13 +16,14 @@ return [
 
             foreach ($node->props['facets'] as $facet) {
 
-                $facet->props = (array) $facet->props;
-                $filters[] = $facet->props['field'];
+                $facet = (array) $facet;
+                $facet['field'] = $facet['title'] ?? null;
+                $filters[] = $facet['field'];
             }
 
             $node->filters = json_encode($filters);
 
-            
+
             /* OTHER FILTERS */
             $node->other_filters = null;
             $filters = $node->props['filters'] ?? [];
@@ -30,11 +31,13 @@ return [
             $filtersStrings = [];
             if (count($filters) > 0) {
                 foreach ($filters as $filter) {
-                    $filter->props = (array) $filter->props;
-                    app(SourceTransform::class)->__invoke($filter, $root);
-                    $props = $filter->props;
 
-                    $filtersStrings[] = $props['field'] . ':' . $props['value'];
+                    $filter = (array) $filter;
+                    $filter['field'] = $filter['title'] ?? null;
+
+                    app(SourceTransform::class)->__invoke($filter, $root);
+
+                    $filtersStrings[] = $filter['field'] . ':' . $filter['value'];
                 }
             }
 
@@ -47,17 +50,18 @@ return [
 
             foreach ($node->props['attributes_override'] as $facet) {
 
-                $facet->props = (array) $facet->props;
+                $facet = (array) $facet;
+                $facet['field'] = $facet['title'] ?? null;
 
-                if (!isset($facet->props['field']) || !isset($facet->props['name'])) {
+                if (!isset($facet['field']) || !isset($facet['name'])) {
                     continue;
                 }
 
-                if (!$facet->props['field'] || !$facet->props['name']) {
+                if (!$facet['field'] || !$facet['name']) {
                     continue;
                 }
 
-                $attributes[$facet->props['field']] = $facet->props['name'];
+                $attributes[$facet['field']] = $facet['name'];
             }
 
             $node->facet_names = json_encode($attributes);
