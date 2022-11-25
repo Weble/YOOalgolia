@@ -21,37 +21,55 @@ import {
 
 import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
 
-function getRouting(indexName, routingRefinements) {
+function getRouting(component) {
 
-    const refinements = JSON.parse(routingRefinements);
+    const indexName = component._props.algoliaIndexName;
+    const refinements = JSON.parse(component._props.algoliaRoutingRefinements);
+    const routerArrayFormat = component._props.algoliaRouterArrayFormat
 
-    let tmpRouter = historyRouter();
+    // Used for default algolia routing functions
+    let defaultRouter = historyRouter();
 
     return {
         router: historyRouter(
             {
                 createURL({qsModule, routeState, location}) {
+                    let url = defaultRouter._createURL({qsModule, routeState, location});
+                    let query = qsModule.parse(url.split('?')[1]);
 
-                    let url = tmpRouter.createURL({qsModule, routeState, location});
-                    let q = qsModule.parse(url);
+                    Object.entries(query).forEach(([key, value]) => {
+                        value = value.split(',').map(v => {
+                            return v.replace(',', '');
+                        })
+                        query[key] = value;
+                    })
 
-                    const queryString = qsModule.stringify(q.queryParameters, {
+                    const queryString = qsModule.stringify(query, {
                         addQueryPrefix: true,
-                        arrayFormat: 'repeat',
+                        arrayFormat: routerArrayFormat,
                     });
 
                     return `${location.origin}${location.pathname}${queryString}`;
                 },
+
+                parseURL({qsModule, location}) {
+                    let query = qsModule.parse(location.search.slice(1));
+
+                    Object.entries(query).forEach(([key, value]) => {
+                        value = Array.isArray(value) ? value : [value];
+                        query[key] = value.join(',')
+                    })
+
+                    return qsModule.parse(query);
+                }
             }),
+
         stateMapping: {
             stateToRoute(uiState) {
-
                 let indexState = uiState[indexName];
-
                 let state = {};
 
                 refinements.forEach(function (refinement) {
-
                     if (indexState.refinementList && indexState.refinementList[refinement.field]) {
                         state[refinement.name] = indexState.refinementList[refinement.field].join(',')
                     }
@@ -59,8 +77,6 @@ function getRouting(indexName, routingRefinements) {
                     if (indexState.hierarchicalMenu && indexState.hierarchicalMenu[refinement.field]) {
                         state[refinement.name] = indexState.hierarchicalMenu[refinement.field].join(',')
                     }
-
-
                 });
 
                 state['query'] = indexState.query;
@@ -69,14 +85,12 @@ function getRouting(indexName, routingRefinements) {
 
                 return state;
             },
+
             routeToState(routeState) {
-
                 let refinementList = {};
-
                 let hierarchicalMenu = {};
 
                 refinements.forEach(function (refinement) {
-
                     if (routeState[refinement.name]) {
                         refinementList[refinement.field] = routeState[refinement.name].split(',');
                         hierarchicalMenu[refinement.field] = routeState[refinement.name].split(',');
@@ -88,9 +102,9 @@ function getRouting(indexName, routingRefinements) {
                 state[indexName] = {
                     query: routeState.query,
                     page: routeState.page,
-                    refinementList: refinementList,
-                    hierarchicalMenu: hierarchicalMenu,
-                    sortBy: routeState.sortBy
+                    sortBy: routeState.sortBy,
+                    refinementList,
+                    hierarchicalMenu
                 }
 
                 return state;
@@ -103,20 +117,23 @@ function getRouting(indexName, routingRefinements) {
 function middleware({instantSearchInstance}) {
 
     return {
-        onStateChange({uiState}) {
-        },
-        subscribe() {
-            return
-        },
-        unsubscribe() {
-            return
-        }
+        onStateChange({uiState}) {},
+        subscribe() {},
+        unsubscribe() {}
     }
 }
 
 export default {
 
-    props: ['baseUrl', 'algoliaIndexName', 'algoliaAppId', 'algoliaSearchKey', 'algoliaRoutingRefinements', 'refinementsOrder'],
+    props: [
+        'baseUrl',
+        'algoliaIndexName',
+        'algoliaAppId',
+        'algoliaSearchKey',
+        'algoliaRoutingRefinements',
+        'refinementsOrder',
+        'algoliaRouterArrayFormat'
+    ],
 
     components: {
         AisInstantSearch,
@@ -142,7 +159,7 @@ export default {
                 this.algoliaAppId,
                 this.algoliaSearchKey
             ),
-            routing: getRouting(this.algoliaIndexName, this.algoliaRoutingRefinements),
+            routing: getRouting(this),
             middlewares: [middleware],
             searchableFacets: [],
             filters: []

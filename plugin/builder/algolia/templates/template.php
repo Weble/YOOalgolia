@@ -10,10 +10,11 @@ $attrs['id'] = $attrs['id'] ?? 'algolia-' . $node->id;
 
 <?= $container($props, $attrs) ?>
     <algolia-search
-        algolia-app-id="<?php echo $config['app_id']; ?>"
-        algolia-search-key="<?php echo $config['search_key']; ?>"
-        algolia-index-name="<?php echo $config['index_name']; ?>"
-        algolia-routing-refinements=<?php echo $node->routing; ?>
+        algolia-app-id="<?= $config['app_id']; ?>"
+        algolia-search-key="<?= $config['search_key']; ?>"
+        algolia-index-name="<?= $config['index_name']; ?>"
+        algolia-routing-refinements=<?= $node->routing; ?>
+        algolia-router-array-format="<?= $config['router_array_format'] ?>"
         inline-template
     >
         <ais-instant-search

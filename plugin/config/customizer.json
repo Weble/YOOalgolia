@@ -1,4 +1,7 @@
 {
+    "defaults": {
+        "algolia.router_array_format": "Comma"
+    },
     "panels": {
         "algolia": {
             "title": "Algolia",
@@ -19,6 +22,17 @@
                 "algolia.index_name": {
                     "label": "Index Name",
                     "description": "Algolia Index Name"
+                },
+                "algolia.router_array_format": {
+                    "label": "Router Array Format",
+                    "type": "select",
+                    "default": "Comma",
+                    "options": {
+                        "Comma": "comma",
+                        "Repeat": "repeat",
+                        "Indices": "indices",
+                        "Brackets": "brackets"
+                    }
                 },
                 "algolia.routing_refinements": {
                     "label": "Routing Refinements",

@@ -16,6 +16,7 @@ class AlgoliaService
     private string $adminKey;
     private string $searchKey;
     private string $indexName;
+    private string $routerArrayFormat;
     private $routingRefinements;
 
     public function __construct(array $config)
@@ -27,6 +28,7 @@ class AlgoliaService
         $this->searchKey = $config['search_key'] ?? $themeConfig['search_key'] ?? '';
         $this->indexName = $config['index_name'] ?? $themeConfig['index_name'] ?? '';
         $this->routingRefinements = $config['routing_refinements'] ?? $themeConfig['routing_refinements'] ?? [];
+        $this->routerArrayFormat = $config['router_array_format'] ?? $themeConfig['router_array_format'] ?? '';
     }
 
     public function setCredentials(string $appId, string $adminKey, string $searchKey): self
@@ -89,6 +91,11 @@ class AlgoliaService
         return $this->routingRefinements;
     }
 
+    public function routerArrayFormat(): ?string
+    {
+        return $this->routerArrayFormat;
+    }
+
     public function config(): array
     {
         return [
@@ -96,7 +103,8 @@ class AlgoliaService
             'admin_key'  => $this->adminKey(),
             'search_key' => $this->searchKey(),
             'index_name' => $this->indexName(),
-            'routing_refinements' => $this->routingRefinements()
+            'routing_refinements' => $this->routingRefinements(),
+            'router_array_format' => $this->routerArrayFormat()
         ];
     }
 
