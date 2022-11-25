@@ -15,6 +15,10 @@ return [
                 $facets[] = $facet['field'];
             }
 
+            if (empty($facets)) {
+                $facets[] = " ";
+            }
+
             $node->facets = json_encode($facets);
             $node->facets_count = count($facets);
         }

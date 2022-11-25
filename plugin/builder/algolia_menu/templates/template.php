@@ -41,7 +41,7 @@ $buttonAttrs = [
 
 <ais-hierarchical-menu
     :attributes='<?php echo $node->facets; ?>'
-    limit="<?= $props['limit'] ?>"
+    :limit="<?= $props['limit'] ?>"
 
     <?php if ($props['show_more'] ?? true): ?>
         :show-more-limit="<?= $props['show_more_limit'] ?? 50; ?>"

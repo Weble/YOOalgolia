@@ -42,7 +42,7 @@ $buttonAttrs = [
 <?php if ($props['facet_type'] === 'checkbox') : ?>
 <ais-refinement-list
         attribute="<?= $node->props['facet'] ?>"
-        limit="<?= $props['limit'] ?>"
+        :limit="<?= $props['limit'] ?>"
         :sort-by="['<?= $props['sort_by'] ?>' <?= $props['sort_by_fallback'] ? ", '{$props['sort_by_fallback']}'" : null ?>]"
 
     <?php if ($props['show_more'] ?? true): ?>
