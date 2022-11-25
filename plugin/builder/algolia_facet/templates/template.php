@@ -43,7 +43,7 @@ $buttonAttrs = [
 <ais-refinement-list
         attribute="<?= $node->props['facet'] ?>"
         limit="<?= $props['limit'] ?>"
-        :sort-by="['<?= $props['sort_by '] ?>' <?= $props['sort_by_fallback'] ? ", '{$props['sort_by_fallback']}'" : null ?>]"
+        :sort-by="['<?= $props['sort_by'] ?>' <?= $props['sort_by_fallback'] ? ", '{$props['sort_by_fallback']}'" : null ?>]"
 
     <?php if ($props['show_more'] ?? true): ?>
         :show-more-limit="<?= $props['show_more_limit'] ?? 50; ?>"
