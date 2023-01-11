@@ -43,7 +43,7 @@ $button = $this->el('a', [
 
 
                         <span class="uk-text-middle">
-                            <span class="uk-text-small">{{ renameAttributes(refinement.attribute, <?= $node->facet_names ?>) }}:</span> {{ refinement.label }}
+                            <span class="uk-text-small">{{ renameAttributes(refinement.attribute, <?= $node->facet_names ?>) }}</span> {{ refinement.label }}
                         </span>
 
                         <?php if ($props['icon_align'] == 'right') : ?>

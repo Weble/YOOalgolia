@@ -174,12 +174,11 @@ export default {
     methods: {
 
         renameAttributes: function (attribute, data) {
-
             if (!data[attribute]) {
-                return attribute;
+                return null;
             }
 
-            return data[attribute];
+            return data[attribute] + ': ';
         },
 
         popFacet: function (event) {
