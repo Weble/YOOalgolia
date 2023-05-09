@@ -17,7 +17,9 @@ return [
             $metadata->set('script:algolia-element', ['src' => "plugins/system/yooalgolia/assets/algolia.min.js", 'defer' => true]);
 
             $routing = [];
-            foreach ($node->props['routing_refinements'] as $refinement) {
+            $refinements = isset($node->props['routing_refinements']) ? $node->props['routing_refinements'] : [];
+
+            foreach ($refinements as $refinement) {
 
                 $refinement = (array) $refinement;
                 $refinement['field'] = $refinement['title'] ?? null;
