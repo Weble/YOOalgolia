@@ -162,7 +162,8 @@ export default {
             routing: getRouting(this),
             middlewares: [middleware],
             searchableFacets: [],
-            filters: []
+            filters: [],
+            layout: true
         };
     },
 
@@ -172,7 +173,9 @@ export default {
 
 
     methods: {
-
+        toggleLayout: function () {
+            this.layout = !this.layout;
+        },
         renameAttributes: function (attribute, data) {
 
             if (!data[attribute]) {

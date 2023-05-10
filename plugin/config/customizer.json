@@ -26,7 +26,7 @@
                 "algolia.router_array_format": {
                     "label": "Router Array Format",
                     "type": "select",
-                    "default": "Comma",
+                    "default": "comma",
                     "options": {
                         "Comma": "comma",
                         "Repeat": "repeat",
