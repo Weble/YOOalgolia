@@ -169,12 +169,24 @@ export default {
 
     created() {
 
+        this.layout = localStorage.algoliaHitsLayout
+            ? JSON.parse(localStorage.algoliaHitsLayout)
+            : false
     },
 
 
     methods: {
         toggleLayout: function () {
             this.layout = !this.layout;
+            localStorage.algoliaHitsLayout = JSON.stringify(this.layout);
+        },
+        toggleLayoutOn: function () {
+            this.layout = true;
+            localStorage.algoliaHitsLayout = JSON.stringify(this.layout);
+        },
+        toggleLayoutOff: function () {
+            this.layout = false;
+            localStorage.algoliaHitsLayout = JSON.stringify(this.layout);
         },
         renameAttributes: function (attribute, data) {
 
