@@ -17,17 +17,17 @@
     "fields": {
         "_filters": {
             "label": "Set Filters",
-            "type": "yooessentials-settings-panels",
+            "type": "yooessentials-dataset-multi",
             "modal": true,
-            "options": {
-                "": {
+            "options": [
+                {
+                    "name": "filters",
+                    "icon": "${url:svg/icon.svg}",
                     "panel": "algolia-configure-filters",
-                    "title": {
-                        "prop": "field",
-                        "default" :"field"
-                    }
+                    "title": "Algolia Configure Filters",
+                    "titleFallback": "Algolia Configure Filters"
                 }
-            }
+            ]
         },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
