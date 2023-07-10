@@ -17,15 +17,15 @@ return [
             $metadata->set('script:algolia-element', ['src' => "plugins/system/yooalgolia/assets/algolia.min.js", 'defer' => true]);
 
             $routing = [];
-            foreach ($node->props['routing_refinements'] as $refinement) {
+            foreach ($node->props['routing_refinements'] ?? [] as $refinement) {
 
                 $refinement = (array) $refinement;
                 $refinement['field'] = $refinement['title'] ?? null;
 
                 $routing[] = [
-                   'field' => $refinement['field'],
-                   'name' => $refinement['name']
-               ];
+                    'field' => $refinement['field'],
+                    'name' => $refinement['name']
+                ];
             }
             $node->routing = json_encode($routing);
 

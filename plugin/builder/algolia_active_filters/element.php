@@ -9,7 +9,7 @@ return [
 
             $excluded_facets = [];
 
-            foreach ($node->props['excluded-attributes'] as $facet) {
+            foreach ($node->props['excluded-attributes'] ?? [] as $facet) {
 
                 $facet = (array) $facet;
                 $facet['field'] = $facet['title'] ?? null;
@@ -31,7 +31,7 @@ return [
             /* Attributes override */
             $attributes = [];
 
-            foreach ($node->props['attributes_override'] as $facet) {
+            foreach ($node->props['attributes_override'] ?? [] as $facet) {
 
                 $facet = (array) $facet;
                 $facet['field'] = $facet['title'] ?? null;
