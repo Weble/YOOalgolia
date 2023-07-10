@@ -25,7 +25,9 @@ return [
                     $filter = $sourceResolver->resolveProps($filter, $root);
                     $props = $filter->props;
 
-                    $filtersStrings[] = $props['field'] . ':' . $props['value'];
+                    if (isset($props['value'])) {
+                        $filtersStrings[] = $props['field'] . ':' . $props['value'] ?? null;
+                    }
                 }
             }
 
