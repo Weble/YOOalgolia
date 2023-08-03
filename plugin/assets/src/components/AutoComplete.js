@@ -1,7 +1,6 @@
 import algoliasearch from "algoliasearch/lite";
 import {createQuerySuggestionsPlugin} from "@algolia/autocomplete-plugin-query-suggestions";
 import {autocomplete, getAlgoliaResults} from "@algolia/autocomplete-js";
-import { createRedirectUrlPlugin } from '@algolia/autocomplete-plugin-redirect-url';
 
 import '@algolia/autocomplete-theme-classic';
 
@@ -51,9 +50,7 @@ export default {
         submitButton: String,
     },
 
-    data: {
-
-    },
+    data: {},
 
     connected() {
         addClass(this.$el, this.$options.id);
@@ -73,8 +70,6 @@ export default {
             const sources = props.sources[0] || [];
             const createSourceFromProps = this.createSourceFromProps;
             const generateTemplateLiteral = this.generateTemplateLiteral;
-
-            console.log(props);
 
             autocomplete({
                 container: this.$el,
@@ -144,16 +139,77 @@ export default {
 
         },
 
-        generateTemplateLiteral(templateString, templateVars){
-            return new Function("return this.html`"+templateString +"`;").call(templateVars)
+        generateTemplateLiteral(templateString, templateVars) {
+            return new Function("return this.html`" + templateString + "`;").call(templateVars)
+        },
+
+        getPropValue(sourceObject, dotNotationPath) {
+            let returnData = sourceObject;
+
+            dotNotationPath.split(".").forEach(subPath => {
+                returnData = returnData[subPath] || `Property ${subPath} not found`;
+            });
+
+            return returnData;
+        },
+
+        getTemplates({ source, state, setQuery, refresh}) {
+            const generateTemplateLiteral = this.generateTemplateLiteral;
+
+            return {
+                header({html}) {
+                    return generateTemplateLiteral(source.props.header, {html});
+                },
+                footer({html}) {
+                    return generateTemplateLiteral(source.props.footer, {html});
+                },
+                item({item, html, components, insights}) {
+
+                    const vars = {
+                        hit: item,
+                        html,
+                        components,
+                        insights,
+                        state,
+                        setQuery,
+                        refresh,
+                    };
+                    return generateTemplateLiteral(source.props.template, vars);
+                },
+                noResults({html}) {
+                    return generateTemplateLiteral(source.props.no_results, {html});
+                },
+            };
         },
 
         createSourceFromProps({query, source, state, setQuery, refresh}) {
-            const generateTemplateLiteral = this.generateTemplateLiteral;
-
             const searchClient = algoliasearch(source.props.app_id, source.props.search_key);
+            const templates = this.getTemplates({source, state, setQuery, refresh});
 
             switch (source.type) {
+                case "manual-search":
+                    return {
+                        sourceId: source.props.name || 'manualSearch',
+                        getItems: function ({query}) {
+                            if (!query || query.length <= 0) {
+                                return [];
+                            }
+
+                            const url = source.props.url || '';
+
+                            return [{
+                                query: query,
+                                url: url
+                            }]
+                        },
+                        templates,
+                        getItemUrl: function({item}) {
+                            const url = source.props.url || '';
+
+                            return url;
+                        },
+                    };
+
                 case "query-suggestions":
                     const plugin = createQuerySuggestionsPlugin({
                         searchClient,
@@ -168,6 +224,7 @@ export default {
                     return {
                         ...plugin.getSources({searchClient, query, source})[0],
                         sourceId: source.props.name || 'querySuggestionsPlugin',
+                        templates
                     };
 
                 case "source":
@@ -190,29 +247,7 @@ export default {
                                 ],
                             });
                         },
-                        templates: {
-                            header({html}) {
-                                return generateTemplateLiteral(source.props.header, {html});
-                            },
-                            footer({html}) {
-                                return generateTemplateLiteral(source.props.footer, {html});
-                            },
-                            item({item, html, components, insights}) {
-                                const vars = {
-                                    hit: item,
-                                    html,
-                                    components,
-                                    insights,
-                                    state,
-                                    setQuery,
-                                    refresh,
-                                };
-                                return generateTemplateLiteral(source.props.template, vars);
-                            },
-                            noResults({html}) {
-                                return generateTemplateLiteral(source.props.no_results, {html});
-                            },
-                        },
+                        templates
                     };
             }
         }

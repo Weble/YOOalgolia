@@ -101,6 +101,12 @@
                 "titleFallback": "Query Suggestions",
                 "label": "Query Suggestions",
                 "panel": "algolia-autocomplete-query-suggestions"
+            },{
+                "name": "manual-search",
+                "title": "Manual Search",
+                "titleFallback": "Manual Search",
+                "label": "Manual Search",
+                "panel": "algolia-autocomplete-manual-search"
             }]
         },
         "detachedCancelButton":  {
@@ -274,7 +280,8 @@
                 "name": {
                     "label": "Name",
                     "required": true,
-                    "placeholder": "items"
+                    "placeholder": "source",
+                    "default": "source"
                 },
                 "app_id": {
                     "label": "App Id",
@@ -345,7 +352,8 @@
                 "name": {
                     "label": "Name",
                     "required": true,
-                    "placeholder": "query-suggestions"
+                    "placeholder": "querySuggestionsPlugin",
+                    "default": "querySuggestionsPlugin"
                 },
                 "app_id": {
                     "label": "App Id",
@@ -365,6 +373,107 @@
                     "default": 5,
                     "attrs": {
                         "type": "number"
+                    }
+                },
+                "template": {
+                    "label": "Template",
+                    "description": "Template used for rendering the result item. Available variables: result hit: <code>this.hit</code>, algolia ui components: <code>this.components</code>, insights helper: <code>this.insights()</code>, set the search query manually: <code>this.setQuery()</code>, search state: <code>this.state</code>, refresh the ui: <code>this.refresh()</code>,",
+                    "default": "<a href=\"#\" class=\"aa-ItemLink\">${this.hit.name}</a>",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                },
+                "header": {
+                    "label": "Header",
+                    "default": "<div>\n<span class=\"aa-SourceHeaderTitle\">Products</span>\n<div class=\"aa-SourceHeaderLine\"/>\n</div>",
+                    "description": "Template used for rendering the header.",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                },
+                "footer": {
+                    "label": "Footer",
+                    "default": "",
+                    "description": "Template used for rendering the footer.",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                },
+                "no_results": {
+                    "label": "No Results",
+                    "default": "No Results for this query",
+                    "description": "Template used for rendering the no result",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                }
+            }
+        },
+        "algolia-autocomplete-manual-search": {
+            "title": "Manual Search",
+            "width": 500,
+            "fields": {
+                "name": {
+                    "label": "Name",
+                    "required": true,
+                    "placeholder": "manualSearch",
+                    "default": "manualSearch"
+                },
+                "url": {
+                    "type": "link",
+                    "label": "Destination Url"
+                },
+                "param": {
+                    "label": "Parameter Name",
+                    "default": "query",
+                    "placeholder": "query"
+                },
+                "template": {
+                    "label": "Template",
+                    "description": "Template used for rendering the result item. Available variables: result hit: <code>this.hit</code>, algolia ui components: <code>this.components</code>, insights helper: <code>this.insights()</code>, set the search query manually: <code>this.setQuery()</code>, search state: <code>this.state</code>, refresh the ui: <code>this.refresh()</code>,",
+                    "default": "<a href=\"#\" class=\"aa-ItemLink\">${this.hit.name}</a>",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                },
+                "header": {
+                    "label": "Header",
+                    "default": "<div>\n<span class=\"aa-SourceHeaderTitle\">Products</span>\n<div class=\"aa-SourceHeaderLine\"/>\n</div>",
+                    "description": "Template used for rendering the header.",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                },
+                "footer": {
+                    "label": "Footer",
+                    "default": "",
+                    "description": "Template used for rendering the footer.",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                },
+                "no_results": {
+                    "label": "No Results",
+                    "default": "No Results for this query",
+                    "description": "Template used for rendering the no result",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
                     }
                 }
             }
