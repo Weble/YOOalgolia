@@ -1,0 +1,230 @@
+{
+    "@import": "./element.php",
+    "name": "algolia_autocomplete",
+    "title": "Algolia Autocomplete",
+    "group": "Algolia",
+    "icon": "${url:icon/icon.svg}",
+    "iconSmall": "${url:icon/iconSmall.svg}",
+    "element": true,
+    "container": true,
+    "width": 500,
+    "defaults": {
+
+    },
+    "placeholder": {
+
+    },
+    "templates": {
+        "render": "./templates/template.php",
+        "content": "./templates/content.php"
+    },
+    "fields": {
+        "app_id": {
+            "label": "App Id",
+            "description": "Algolia App Id"
+        },
+        "search_key": {
+            "label": "Search Key",
+            "description": "Algolia Search Key"
+        },
+        "placeholder": {
+            "label": "Placeholder",
+            "description": "Text placeholder for the search input",
+            "default": "Search"
+        },
+        "autoFocus": {
+            "text": "Focus on the search box on page load",
+            "default": false,
+            "type": "checkbox"
+        },
+        "openOnFocus": {
+            "text": "Open the dropdown when the search input is focused",
+            "default": true,
+            "type": "checkbox"
+        },
+        "debug": {
+            "text": "Keep the autocomplete panel open even when the blur event occurs",
+            "default": false,
+            "type": "checkbox"
+        },
+        "template": {
+            "label": "Template",
+            "description": "Results wrapper template. Available tags are `elements.source_name`",
+            "default": "<div class=\"aa-PanelLayout aa-Panel--scrollable\">\n<div class=\"aa-PanelSections\">\n{$source}\n</div>\n</div>",
+            "type": "editor",
+            "editor": "code",
+            "attrs": {
+                "debounce": 500
+            }
+        },
+        "sources": {
+            "type": "yooessentials-dataset-multi",
+            "title": "Sources",
+            "label": "Sources",
+            "options": [{
+                "name": "source",
+                "title": "Results From Index",
+                "titleFallback": "Source",
+                "label": "Source",
+                "panel": "algolia-autocomplete-source"
+            },{
+                "name": "query-suggestions",
+                "title": "Query Suggestions",
+                "titleFallback": "Query Suggestions",
+                "label": "Query Suggestions",
+                "panel": "algolia-autocomplete-query-suggestions"
+            }]
+        },
+
+        "position": "${builder.position}",
+        "position_left": "${builder.position_left}",
+        "position_right": "${builder.position_right}",
+        "position_top": "${builder.position_top}",
+        "position_bottom": "${builder.position_bottom}",
+        "position_z_index": "${builder.position_z_index}",
+        "margin": "${builder.margin}",
+        "margin_remove_top": "${builder.margin_remove_top}",
+        "margin_remove_bottom": "${builder.margin_remove_bottom}",
+        "maxwidth": "${builder.maxwidth}",
+        "maxwidth_breakpoint": "${builder.maxwidth_breakpoint}",
+        "block_align": "${builder.block_align}",
+        "block_align_breakpoint": "${builder.block_align_breakpoint}",
+        "block_align_fallback": "${builder.block_align_fallback}",
+        "text_align": "${builder.text_align_justify}",
+        "text_align_breakpoint": "${builder.text_align_breakpoint}",
+        "text_align_fallback": "${builder.text_align_justify_fallback}",
+        "animation": "${builder.animation}",
+        "item_animation": "${builder.item_animation}",
+        "_parallax_button": "${builder._parallax_button}",
+        "visibility": "${builder.visibility}",
+        "name": "${builder.name}",
+        "status": "${builder.status}",
+        "id": "${builder.id}",
+        "class": "${builder.cls}",
+        "attributes": "${builder.attrs}",
+        "css": {
+            "label": "CSS",
+            "description": "Enter your own custom CSS. The following selectors will be prefixed automatically for this element: <code>.el-element</code>, <code>.el-item</code>, <code>.el-title</code>, <code>.el-meta</code>, <code>.el-content</code>, <code>.el-image</code>, <code>.el-link</code>",
+            "type": "editor",
+            "editor": "code",
+            "mode": "css",
+            "attrs": {
+                "debounce": 500
+            }
+        }
+    },
+    "fieldset": {
+        "default": {
+            "type": "tabs",
+            "fields": [
+                {
+                    "title": "Settings",
+                    "fields": [
+                        "app_id",
+                        "search_key",
+                        "sources",
+                        "debug"
+                    ]
+                },
+                {
+                    "title": "Templates",
+                    "fields": [
+                        "template",
+                        "openOnFocus",
+                        "autoFocus",
+                        "placeholder"
+                    ]
+                },
+                "${builder.advanced}"
+            ]
+        }
+    },
+    "panels": {
+        "algolia-autocomplete-source": {
+            "title": "Source",
+            "width": 500,
+            "fields": {
+                "name": {
+                    "label": "Name",
+                    "required": true,
+                    "placeholder": "items"
+                },
+                "index_name": {
+                    "label": "Index Name",
+                    "description": "Algolia Index Name"
+                },
+                "hits_per_page": {
+                    "label": "Hits per Page",
+                    "description": "Number of results to fetch for this source",
+                    "default": 5,
+                    "attrs": {
+                        "type": "number"
+                    }
+                },
+                "template": {
+                    "label": "Template",
+                    "description": "Template used for rendering the result item. Available variables: result hit: <code>this.hit</code>, algolia ui components: <code>this.components</code>, insights helper: <code>this.insights()</code>, set the search query manually: <code>this.setQuery()</code>, search state: <code>this.state</code>, refresh the ui: <code>this.refresh()</code>,",
+                    "default": "<a href=\"#\" class=\"aa-ItemLink\">${this.hit.name}</a>",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                },
+                "header": {
+                    "label": "Header",
+                    "default": "<div>\n<span class=\"aa-SourceHeaderTitle\">Products</span>\n<div class=\"aa-SourceHeaderLine\"/>\n</div>",
+                    "description": "Template used for rendering the header.",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                },
+                "footer": {
+                    "label": "Footer",
+                    "default": "",
+                    "description": "Template used for rendering the footer.",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                },
+                "no_results": {
+                    "label": "No Results",
+                    "default": "No Results for this query",
+                    "description": "Template used for rendering the no result",
+                    "type": "editor",
+                    "editor": "code",
+                    "attrs": {
+                        "debounce": 500
+                    }
+                }
+            }
+        },
+        "algolia-autocomplete-query-suggestions": {
+            "title": "Query Suggestions",
+            "width": 500,
+            "fields": {
+                "name": {
+                    "label": "Name",
+                    "required": true,
+                    "placeholder": "query-suggestions"
+                },
+                "index_name": {
+                    "label": "Index Name",
+                    "description": "Algolia Index Name"
+                },
+                "hits_per_page": {
+                    "label": "Hits per Page",
+                    "description": "Number of results to fetch for this source",
+                    "default": 5,
+                    "attrs": {
+                        "type": "number"
+                    }
+                }
+            }
+        }
+    }
+}
