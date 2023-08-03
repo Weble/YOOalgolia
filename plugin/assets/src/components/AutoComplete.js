@@ -14,11 +14,41 @@ export default {
 
     props: {
         sources: Array,
-        app_id: String,
-        search_key: String,
         template: String,
         placeholder: String,
         openOnFocus: Boolean,
+        autoFocus: Boolean,
+        debug: Boolean,
+        query: String,
+        activeItemId: Number,
+        clearButtonTitle: String,
+        detachedCancelButtonText: String,
+        submitButtonTitle: String,
+        detachedMediaQuery: String,
+        detachedCancelButton: String,
+        detachedFormContainer: String,
+        detachedContainer: String,
+        detachedOverlay: String,
+        detachedSearchButton: String,
+        detachedSearchButtonIcon: String,
+        detachedSearchButtonPlaceholder: String,
+        form: String,
+        input: String,
+        inputWrapper: String,
+        inputWrapperPrefix: String,
+        inputWrapperSuffix: String,
+        item: String,
+        label: String,
+        list: String,
+        loadingIndicator: String,
+        panel: String,
+        panelLayout: String,
+        clearButton: String,
+        root: String,
+        source: String,
+        sourceFooter: String,
+        sourceHeader: String,
+        submitButton: String,
     },
 
     data: {
@@ -26,7 +56,6 @@ export default {
     },
 
     connected() {
-        console.log(this.$props)
         addClass(this.$el, this.$options.id);
         attr(this.$el, 'role', this.role);
         this.createAutocomplete();
@@ -41,27 +70,62 @@ export default {
     methods: {
         createAutocomplete() {
             const props = this.$props;
-            const searchClient = algoliasearch(props.app_id, props.search_key);
             const sources = props.sources[0] || [];
             const createSourceFromProps = this.createSourceFromProps;
             const generateTemplateLiteral = this.generateTemplateLiteral;
 
-            const redirectUrlPlugin = createRedirectUrlPlugin();
+            console.log(props);
 
             autocomplete({
-
                 container: this.$el,
                 placeholder: props.placeholder || 'Search',
                 openOnFocus: props.openOnFocus || true,
+                autoFocus: props.autoFocus || false,
+                debug: props.debug || false,
                 insights: true,
-                plugins: [redirectUrlPlugin],
+                plugins: [],
+                initialState: {
+                    query: props.query || '',
+                    activeItemId: props.activeItemId || 0
+                },
+                translations: {
+                    clearButtonTitle: props.clearButtonTitle || 'Clear',
+                    detachedCancelButtonText: props.detachedCancelButtonText || 'Cancel',
+                    submitButtonTitle: props.submitButtonTitle || 'Submit',
+                },
+                classNames: {
+                    detachedCancelButton: props.detachedCancelButton || '',
+                    detachedFormContainer: props.detachedFormContainer || '',
+                    detachedContainer: props.detachedContainer || '',
+                    detachedOverlay: props.detachedOverlay || '',
+                    detachedSearchButton: props.detachedSearchButton || '',
+                    detachedSearchButtonIcon: props.detachedSearchButtonIcon || '',
+                    detachedSearchButtonPlaceholder: props.detachedSearchButtonPlaceholder || '',
+                    form: props.form || '',
+                    input: props.input || '',
+                    inputWrapper: props.inputWrapper || '',
+                    inputWrapperPrefix: props.inputWrapperPrefix || '',
+                    inputWrapperSuffix: props.inputWrapperSuffix || '',
+                    item: props.item || '',
+                    label: props.label || '',
+                    list: props.list || '',
+                    loadingIndicator: props.loadingIndicator || '',
+                    panel: props.panel || '',
+                    panelLayout: props.panelLayout || '',
+                    clearButton: props.clearButton || '',
+                    root: props.root || '',
+                    source: props.source || '',
+                    sourceFooter: props.sourceFooter || '',
+                    sourceHeader: props.sourceHeader || '',
+                    submitButton: props.submitButton || '',
+                },
+                detachedMediaQuery: props.detachedMediaQuery === 'null' ? '' : props.detachedMediaQuery,
                 getSources({query, state, setQuery, refresh}) {
                     if (!query) {
                         return [];
                     }
 
                     return sources.map((source) => createSourceFromProps({
-                        searchClient,
                         query,
                         source,
                         state,
@@ -81,14 +145,14 @@ export default {
         },
 
         generateTemplateLiteral(templateString, templateVars){
-            // templateString = templateString.replaceAll("${", "${this.");
             return new Function("return this.html`"+templateString +"`;").call(templateVars)
         },
 
-        createSourceFromProps({searchClient, query, source, state, setQuery, refresh}) {
+        createSourceFromProps({query, source, state, setQuery, refresh}) {
             const generateTemplateLiteral = this.generateTemplateLiteral;
 
-            console.log(source);
+            const searchClient = algoliasearch(source.props.app_id, source.props.search_key);
+
             switch (source.type) {
                 case "query-suggestions":
                     const plugin = createQuerySuggestionsPlugin({
@@ -102,11 +166,12 @@ export default {
                     });
 
                     return {
+                        ...plugin.getSources({searchClient, query, source})[0],
                         sourceId: source.props.name || 'querySuggestionsPlugin',
-                        ...plugin.getSources({searchClient, query, source})[0]
                     };
 
                 case "source":
+
                     return {
                         sourceId: source.props.name || 'items',
                         getItems() {

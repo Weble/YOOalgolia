@@ -19,18 +19,46 @@
         "content": "./templates/content.php"
     },
     "fields": {
-        "app_id": {
-            "label": "App Id",
-            "description": "Algolia App Id"
+        "query": {
+            "label": "Query",
+            "description": "Initial query to fill in",
+            "default": "",
+            "source": true
         },
-        "search_key": {
-            "label": "Search Key",
-            "description": "Algolia Search Key"
+        "detachedMediaQuery": {
+            "label": "Detached Mode",
+            "description": "Media query, 'none' to disable, or '' to enable always.",
+            "default": "(max-width: 680px)"
+        },
+        "clearButtonTitle": {
+            "label": "Clear Button Title",
+            "default": "Clear",
+            "source": true
+        },
+        "detachedCancelButtonText": {
+            "label": "Cancel Button Title",
+            "default": "Cancel",
+            "source": true
+        },
+        "submitButtonTitle": {
+            "label": "Submit Button Title",
+            "default": "Submit",
+            "source": true
+        },
+        "activeItemId": {
+            "label": "Active Item Index",
+            "description": "Default Selected Item",
+            "default": 0,
+            "attrs": {
+                "type": "number"
+            },
+            "source": true
         },
         "placeholder": {
             "label": "Placeholder",
             "description": "Text placeholder for the search input",
-            "default": "Search"
+            "default": "Search",
+            "source": true
         },
         "autoFocus": {
             "text": "Focus on the search box on page load",
@@ -75,7 +103,78 @@
                 "panel": "algolia-autocomplete-query-suggestions"
             }]
         },
-
+        "detachedCancelButton":  {
+            "label": "Detached Cancel Button class"
+        },
+        "detachedFormContainer": {
+            "label":  "Detached Form Container class"
+        },
+        "detachedContainer":  {
+            "label":  "Detached Container class"
+        },
+        "detachedOverlay": {
+            "label":  "Detached Overlay class"
+        },
+        "detachedSearchButton":  {
+            "label":  "Detached Search Button class"
+        },
+        "detachedSearchButtonIcon": {
+            "label":  "Detached Search ButtonIcon class"
+        },
+        "detachedSearchButtonPlaceholder":  {
+            "label":  "detached Search Button Placeholder class"
+        },
+        "form": {
+            "label":  "form class"
+        },
+        "input":  {
+            "label":  "input class"
+        },
+        "inputWrapper": {
+            "label":  "input Wrapper class"
+        },
+        "inputWrapperPrefix":  {
+            "label":  "input Wrapper Prefix class"
+        },
+        "inputWrapperSuffix": {
+            "label":  "input Wrapper Suffix class"
+        },
+        "item":  {
+            "label":  "item class"
+        },
+        "label": {
+            "label":  "label class"
+        },
+        "list":  {
+            "label":  "list class"
+        },
+        "loadingIndicator": {
+            "label":  "loading Indicator class"
+        },
+        "panel":  {
+            "label":  "panel class"
+        },
+        "panelLayout": {
+            "label":  "panel Layout class"
+        },
+        "clearButton":  {
+            "label":  "clear Button class"
+        },
+        "root": {
+            "label":  "root class"
+        },
+        "source":  {
+            "label":  "source class"
+        },
+        "sourceFooter": {
+            "label":  "source Footer class"
+        },
+        "sourceHeader":  {
+            "label":  "source Header class"
+        },
+        "submitButton": {
+            "label":  "submit Button class"
+        },
         "position": "${builder.position}",
         "position_left": "${builder.position_left}",
         "position_right": "${builder.position_right}",
@@ -120,9 +219,11 @@
                 {
                     "title": "Settings",
                     "fields": [
-                        "app_id",
-                        "search_key",
                         "sources",
+                        "query",
+                        "activeItemId",
+                        "openOnFocus",
+                        "autoFocus",
                         "debug"
                     ]
                 },
@@ -130,9 +231,35 @@
                     "title": "Templates",
                     "fields": [
                         "template",
-                        "openOnFocus",
-                        "autoFocus",
-                        "placeholder"
+                        "placeholder",
+                        "detachedMediaQuery",
+                        "submitButtonTitle",
+                        "detachedCancelButtonText",
+                        "clearButtonTitle",
+                        "detachedCancelButton",
+                        "detachedFormContainer",
+                        "detachedContainer",
+                        "detachedOverlay",
+                        "detachedSearchButton",
+                        "detachedSearchButtonIcon",
+                        "detachedSearchButtonPlaceholder",
+                        "form",
+                        "input",
+                        "inputWrapper",
+                        "inputWrapperPrefix",
+                        "inputWrapperSuffix",
+                        "item",
+                        "label",
+                        "list",
+                        "loadingIndicator",
+                        "panel",
+                        "panelLayout",
+                        "clearButton",
+                        "root",
+                        "source",
+                        "sourceFooter",
+                        "sourceHeader",
+                        "submitButton"
                     ]
                 },
                 "${builder.advanced}"
@@ -148,6 +275,14 @@
                     "label": "Name",
                     "required": true,
                     "placeholder": "items"
+                },
+                "app_id": {
+                    "label": "App Id",
+                    "description": "Algolia App Id"
+                },
+                "search_key": {
+                    "label": "Search Key",
+                    "description": "Algolia Search Key"
                 },
                 "index_name": {
                     "label": "Index Name",
@@ -211,6 +346,14 @@
                     "label": "Name",
                     "required": true,
                     "placeholder": "query-suggestions"
+                },
+                "app_id": {
+                    "label": "App Id",
+                    "description": "Algolia App Id"
+                },
+                "search_key": {
+                    "label": "Search Key",
+                    "description": "Algolia Search Key"
                 },
                 "index_name": {
                     "label": "Index Name",
