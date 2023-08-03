@@ -10,6 +10,8 @@ const attr = window.UIkit.util.attr;
 
 export default {
 
+    name: 'algoliaAutocomplete',
+
     props: {
         sources: Array,
         app_id: String,

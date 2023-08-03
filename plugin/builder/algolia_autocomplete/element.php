@@ -13,7 +13,7 @@ return [
 
             $metadata = app(Metadata::class);
             $metadata->set('script:algolia-autocomplete', [
-                'src' => Path::get('~yooalgolia/assets/autocomplete.min.js'),
+                'src' => Path::get('~yooalgolia_url/assets/autocomplete.min.js'),
                 'defer' => true,
             ]);
         },

@@ -1,5 +1,4 @@
-import AutocompletePlugin from "./autocomplete.plugin";
+import AutocompletePlugin from "./components/AutoComplete";
 
+let $$ = window.UIkit.util.$$;
 window.UIkit.component('AlgoliaAutocomplete', AutocompletePlugin);
-
-window.UIkit.util.$$('[uk-algolia-autocomplete]').forEach((element) => window.UIkit.algoliaAutocomplete(element));
