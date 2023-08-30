@@ -1,11 +1,8 @@
 # Remove old files
-rm -f build/*.zip
+rm -f ./build/*.zip
 
 # Zip Plugin
-cd plugin/
 composer install
 npm install
 npm run production
-zip -qr ../build/plg_system_yooalgolia.zip ./* -x node_modules/\* -x assets/src/\*
-
-cd ../
+zip -qr ./build/plg_system_yooalgolia.zip ./plugin/* -x ./plugin/assets/src/\*

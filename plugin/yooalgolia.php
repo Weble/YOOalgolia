@@ -16,6 +16,8 @@ class plgSystemYooAlgolia extends Joomla\CMS\Plugin\CMSPlugin
             return;
         }
 
+        require_once __DIR__ . '/vendor/autoload.php';
+
         $app = Application::getInstance();
 
         $root = __DIR__;

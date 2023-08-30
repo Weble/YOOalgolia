@@ -5,8 +5,6 @@ namespace Weble\YOOAlgolia;
 use YOOtheme\Builder;
 use YOOtheme\Path;
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-
 return [
 
     'events' => [
