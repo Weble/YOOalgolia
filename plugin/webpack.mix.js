@@ -14,3 +14,4 @@ let path = require('path');
 mix
     .setPublicPath(path.resolve('./'))
     .js('./assets/src/algolia.js', './assets/algolia.min.js')
+    .vue({version: 2})
