@@ -16,8 +16,10 @@ import {
     AisSortBy,
     AisRangeInput,
     AisToggleRefinement,
-    AisClearRefinements
+    AisClearRefinements,
 } from 'vue-instantsearch';
+
+import SearchInputWrapper from './SearchInputWrapper.vue'
 
 import {history as historyRouter} from 'instantsearch.js/es/lib/routers';
 
@@ -150,7 +152,8 @@ export default {
         VueSlider,
         AisRangeInput,
         AisToggleRefinement,
-        AisClearRefinements
+        AisClearRefinements,
+        SearchInputWrapper
     },
 
     data() {
