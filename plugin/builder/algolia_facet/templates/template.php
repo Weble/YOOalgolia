@@ -86,7 +86,10 @@ $buttonAttrs = [
                             :search-for-items="searchForItems"
                             placeholder="<?php $props['searchable_placeholder'] ?? ''; ?>"
                             :class-names="{
-                    'input': 'uk-input'
+                            'ais-SearchBox-form': 'uk-flex',
+                    'ais-SearchBox-input': 'uk-input uk-form-small uk-width-expand',
+                    'ais-SearchBox-submit': 'uk-button uk-button-default uk-button-small uk-hidden',
+                    'ais-SearchBox-reset': 'ais-SearchBox-reset uk-button uk-button-muted uk-button-small uk-width-auto uk-margin-small-left ',
                 }"
                     />
                 </div>
