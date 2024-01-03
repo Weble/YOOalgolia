@@ -31,6 +31,7 @@ $button = $this->el('a', [
                         refinement.value,
                         refinement.operator
                     ].join(':')"
+                    v-if="refinement.value"
                     class="uk-margin-small-right">
 
                     <?= $button($props) ?>
