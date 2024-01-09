@@ -271,13 +271,6 @@ export default {
             ];
         },
 
-        groupBy: function (xs, key, key1, key2) {
-            return xs.reduce(function (rv, x) {
-                (rv[x[key][key1][key2]] = rv[x[key][key1][key2]] || []).push(x);
-                return rv;
-            }, {});
-        },
-
         formatMinValue: function (minValue, minRange) {
             return minValue !== null && minValue !== minRange ? minValue : '';
         },
