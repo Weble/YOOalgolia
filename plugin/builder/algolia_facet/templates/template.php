@@ -40,18 +40,20 @@ $buttonAttrs = [
 <?= $el($props, $attrs); ?>
 
 <?php if ($props['facet_type'] === 'checkbox') : ?>
-<ais-refinement-list
-        attribute="<?= $node->props['facet'] ?>"
-        :limit="<?= $props['limit'] ?>"
-        :sort-by="['<?= $props['sort_by'] ?>' <?= $props['sort_by_fallback'] ? ", '{$props['sort_by_fallback']}'" : null ?>]"
+    <ais-refinement-list
+            attribute="<?= $node->props['facet'] ?>"
+            :limit="<?= $props['limit'] ?>"
+            :sort-by="['<?= $props['sort_by'] ?>' <?= $props['sort_by_fallback'] ? ", '{$props['sort_by_fallback']}'" : null ?>]"
+            :searchable="<?= ($props['searchable'] ?? false) ? 'true' : 'false' ?>"
+            searchable-placeholder="<?= $props['searchable_placeholder'] ?? '' ?>"
 
-    <?php if ($props['show_more'] ?? true): ?>
-        :show-more-limit="<?= $props['show_more_limit'] ?? 50; ?>"
-        show-more
-    <?php endif; ?>
->
-    <div
-        slot-scope="{
+        <?php if ($props['show_more'] ?? true): ?>
+            :show-more-limit="<?= $props['show_more_limit'] ?? 50; ?>"
+            show-more
+        <?php endif; ?>
+    >
+        <div
+                slot-scope="{
           items,
           isShowingMore,
           isFromSearch,
@@ -60,102 +62,122 @@ $buttonAttrs = [
           createURL,
           toggleShowMore,
           searchForItems,
-          sendEvent,
+          searchForItemsQuery,
+          sendEvent
         }"
-    >
+        >
 
-        <?php if ($title): ?>
-            <?php $titleAttrs = ['v-if' => 'items.length > 0']; ?>
-            <?= $title($props, $titleAttrs) ?>
-            <?php if ($props['title_color'] == 'background') : ?>
-                <span class="uk-text-background"><?= $props['title'] ?></span>
-            <?php elseif ($props['title_decoration'] == 'line') : ?>
-                <span><?= $props['title'] ?></span>
-            <?php else : ?>
-                <?= $props['title'] ?>
+            <?php if ($title): ?>
+                <?php $titleAttrs = ['v-if' => 'items.length > 0']; ?>
+                <?= $title($props, $titleAttrs) ?>
+                <?php if ($props['title_color'] == 'background') : ?>
+                    <span class="uk-text-background"><?= $props['title'] ?></span>
+                <?php elseif ($props['title_decoration'] == 'line') : ?>
+                    <span><?= $props['title'] ?></span>
+                <?php else : ?>
+                    <?= $props['title'] ?>
+                <?php endif ?>
+                <?= $title->end() ?>
             <?php endif ?>
-            <?= $title->end() ?>
-        <?php endif ?>
-        <ul class="uk-list uk-list-small facet-filters">
 
-            <?php if ($props['enable_all_button']) : ?>
-                <li v-if="items.length">
+            <?php if ( $props['searchable'] ?? false ): ?>
+                <div>
+                    <search-input-wrapper
+                            :search-for-items="searchForItems"
+                            placeholder="<?php $props['searchable_placeholder'] ?? ''; ?>"
+                            :class-names="{
+                            'ais-SearchBox-form': 'uk-flex',
+                    'ais-SearchBox-input': 'uk-input uk-form-small uk-width-expand',
+                    'ais-SearchBox-submit': 'uk-button uk-button-default uk-button-small uk-hidden',
+                    'ais-SearchBox-reset': 'ais-SearchBox-reset uk-button uk-button-muted uk-button-small uk-width-auto uk-margin-small-left ',
+                }"
+                    />
+                </div>
+                <div v-if="isFromSearch && items.length === 0">
+                    <?= $props['searchable_no_result'] ?? 'No Results' ?>
+                </div>
+            <?php endif; ?>
+
+            <ul class="uk-list uk-list-small facet-filters">
+
+                <?php if ($props['enable_all_button']) : ?>
+                    <li v-if="items.length">
+                        <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
+                            <input
+                                    class="uk-radio uk-margin-small-right"
+                                    type="checkbox"
+                                    name="<?= $node->props['facet'] ?>"
+                                    checked="checked"
+                                    @change="refine('')"
+                            />
+                            <span class="uk-flex-1"><?= $props['all_button_text'] ?></span>
+                        </label>
+                    </li>
+                <?php endif ?>
+
+                <li v-for="item in items" :key="item.value">
                     <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
                         <input
-                                class="uk-radio uk-margin-small-right"
+                                class="uk-checkbox uk-margin-small-right"
                                 type="checkbox"
-                                name="<?= $node->props['facet'] ?>"
-                                checked="checked"
-                                @change="refine('')"
+                                :value="item.value"
+                                :checked="item.isRefined"
+                                @change="refine(item.value)"
                         />
-                        <span class="uk-flex-1"><?= $props['all_button_text'] ?></span>
+                        <span class="uk-flex-1">{{ item.label }}</span>
+                        <?php if ($props['item_count']) : ?>
+                            <span class="uk-padding-small-left facet-count">{{ item.count }}</span>
+                        <?php endif ?>
                     </label>
-               </li>
-            <?php endif ?>
+                </li>
+            </ul>
 
-            <li v-for="item in items" :key="item.value">
-                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
-                    <input
-                            class="uk-checkbox uk-margin-small-right"
-                            type="checkbox"
-                            :value="item.value"
-                            :checked="item.isRefined"
-                            @change="refine(item.value)"
-                    />
-                    <span class="uk-flex-1">{{ item.label }}</span>
-                    <?php if ($props['item_count']) : ?>
-                        <span class="uk-padding-small-left facet-count">{{ item.count }}</span>
+            <?php if ($props['show_more'] ?? true): ?>
+                <?= $button($props, $buttonAttrs) ?>
+                <?php if ($props['icon']) : ?>
+                    <?php if ($props['icon_align'] == 'left') : ?>
+                        <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
+                        <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
                     <?php endif ?>
-                </label>
-            </li>
-        </ul>
 
-        <?php if ($props['show_more'] ?? true): ?>
-            <?= $button($props, $buttonAttrs) ?>
-            <?php if ($props['icon']) : ?>
-                <?php if ($props['icon_align'] == 'left') : ?>
-                    <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
-                    <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
-                <?php endif ?>
-
-                <span class="uk-text-middle" v-if="isShowingMore">
+                    <span class="uk-text-middle" v-if="isShowingMore">
                       <?php echo $props['content_less'] ?>
                 </span>
-                <span class="uk-text-middle" v-else>
+                    <span class="uk-text-middle" v-else>
                       <?php echo $props['content_more'] ?>
                 </span>
 
-                <?php if ($props['icon_align'] == 'right') : ?>
-                    <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
-                    <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
-                <?php endif ?>
+                    <?php if ($props['icon_align'] == 'right') : ?>
+                        <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
+                        <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
+                    <?php endif ?>
 
-            <?php else : ?>
-                <span class="uk-text-middle" v-if="isShowingMore">
+                <?php else : ?>
+                    <span class="uk-text-middle" v-if="isShowingMore">
                       <?php echo $props['content_less'] ?>
                 </span>
-                <span class="uk-text-middle" v-else>
+                    <span class="uk-text-middle" v-else>
                       <?php echo $props['content_more'] ?>
                 </span>
-            <?php endif ?>
+                <?php endif ?>
 
-            <?= $button->end(); ?>
-        <?php endif; ?>
-    </div>
-</ais-refinement-list>
+                <?= $button->end(); ?>
+            <?php endif; ?>
+        </div>
+    </ais-refinement-list>
 <?php endif ?>
 
 <?php if ($props['facet_type'] === 'radio') : ?>
-<ais-menu
-        attribute="<?= $node->props['facet'] ?>"
-        :sort-by="['name:asc']"
-    <?php if ($props['show_more'] ?? true): ?>
-        :show-more-limit="<?= $props['show_more_limit'] ?? 50; ?>"
-        show-more
-    <?php endif; ?>
->
-    <div
-            slot-scope="{
+    <ais-menu
+            attribute="<?= $node->props['facet'] ?>"
+            :sort-by="['name:asc']"
+        <?php if ($props['show_more'] ?? true): ?>
+            :show-more-limit="<?= $props['show_more_limit'] ?? 50; ?>"
+            show-more
+        <?php endif; ?>
+    >
+        <div
+                slot-scope="{
           items,
           isShowingMore,
           canToggleShowMore,
@@ -163,89 +185,89 @@ $buttonAttrs = [
           createURL,
           sendEvent,
         }"
-    >
+        >
 
-        <?php if ($title): ?>
-            <?php $titleAttrs = ['v-if' => 'items.length > 0']; ?>
-            <?= $title($props, $titleAttrs) ?>
-            <?php if ($props['title_color'] == 'background') : ?>
-                <span class="uk-text-background"><?= $props['title'] ?></span>
-            <?php elseif ($props['title_decoration'] == 'line') : ?>
-                <span><?= $props['title'] ?></span>
-            <?php else : ?>
-                <?= $props['title'] ?>
+            <?php if ($title): ?>
+                <?php $titleAttrs = ['v-if' => 'items.length > 0']; ?>
+                <?= $title($props, $titleAttrs) ?>
+                <?php if ($props['title_color'] == 'background') : ?>
+                    <span class="uk-text-background"><?= $props['title'] ?></span>
+                <?php elseif ($props['title_decoration'] == 'line') : ?>
+                    <span><?= $props['title'] ?></span>
+                <?php else : ?>
+                    <?= $props['title'] ?>
+                <?php endif ?>
+                <?= $title->end() ?>
             <?php endif ?>
-            <?= $title->end() ?>
-        <?php endif ?>
-        <ul class="uk-list uk-list-small facet-filters">
+            <ul class="uk-list uk-list-small facet-filters">
 
-            <?php if ($props['enable_all_button']) : ?>
-                <li v-if="items.length">
+                <?php if ($props['enable_all_button']) : ?>
+                    <li v-if="items.length">
+                        <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
+                            <input
+                                    class="uk-radio uk-margin-small-right"
+                                    type="radio"
+                                    name="<?= $node->props['facet'] ?>"
+                                    checked="checked"
+                                    @change="refine('')"
+                            />
+                            <span class="uk-flex-1"><?= $props['all_button_text'] ?></span>
+                        </label>
+                    </li>
+                <?php endif ?>
+
+                <li v-for="item in items" :key="item.value">
                     <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
                         <input
                                 class="uk-radio uk-margin-small-right"
                                 type="radio"
                                 name="<?= $node->props['facet'] ?>"
-                                checked="checked"
-                                @change="refine('')"
+                                :value="item.value"
+                                :checked="item.isRefined"
+                                @change="refine(item.value)"
                         />
-                        <span class="uk-flex-1"><?= $props['all_button_text'] ?></span>
+                        <span class="uk-flex-1">{{ item.label }}</span>
+                        <?php if ($props['item_count']) : ?>
+                            <span class="uk-padding-small-left facet-count">{{ item.count }}</span>
+                        <?php endif ?>
                     </label>
                 </li>
-            <?php endif ?>
 
-            <li v-for="item in items" :key="item.value">
-                <label class="uk-form-label uk-flex uk-flex-row uk-flex-middle">
-                    <input
-                            class="uk-radio uk-margin-small-right"
-                            type="radio"
-                            name="<?= $node->props['facet'] ?>"
-                            :value="item.value"
-                            :checked="item.isRefined"
-                            @change="refine(item.value)"
-                    />
-                    <span class="uk-flex-1">{{ item.label }}</span>
-                    <?php if ($props['item_count']) : ?>
-                        <span class="uk-padding-small-left facet-count">{{ item.count }}</span>
+            </ul>
+
+            <?php if ($props['show_more'] ?? true): ?>
+                <?= $button($props, $buttonAttrs) ?>
+                <?php if ($props['icon']) : ?>
+                    <?php if ($props['icon_align'] == 'left') : ?>
+                        <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
+                        <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
                     <?php endif ?>
-                </label>
-            </li>
 
-        </ul>
-
-        <?php if ($props['show_more'] ?? true): ?>
-            <?= $button($props, $buttonAttrs) ?>
-            <?php if ($props['icon']) : ?>
-                <?php if ($props['icon_align'] == 'left') : ?>
-                    <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
-                    <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
-                <?php endif ?>
-
-                <span class="uk-text-middle" v-if="isShowingMore">
+                    <span class="uk-text-middle" v-if="isShowingMore">
                       <?php echo $props['content_less'] ?>
                 </span>
-                <span class="uk-text-middle" v-else>
+                    <span class="uk-text-middle" v-else>
                       <?php echo $props['content_more'] ?>
                 </span>
 
-                <?php if ($props['icon_align'] == 'right') : ?>
-                    <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
-                    <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
-                <?php endif ?>
+                    <?php if ($props['icon_align'] == 'right') : ?>
+                        <span v-if="isShowingMore" uk-icon="<?= $props['icon'] ?>"></span>
+                        <span v-else uk-icon="<?= $props['icon_less'] ?>"></span>
+                    <?php endif ?>
 
-            <?php else : ?>
-                <span class="uk-text-middle" v-if="isShowingMore">
+                <?php else : ?>
+                    <span class="uk-text-middle" v-if="isShowingMore">
                       <?php echo $props['content_less'] ?>
                 </span>
-                <span class="uk-text-middle" v-else>
+                    <span class="uk-text-middle" v-else>
                       <?php echo $props['content_more'] ?>
                 </span>
-            <?php endif ?>
+                <?php endif ?>
 
-            <?= $button->end(); ?>
-        <?php endif; ?>
-    </div>
-</ais-menu>
+                <?= $button->end(); ?>
+            <?php endif; ?>
+        </div>
+    </ais-menu>
 <?php endif ?>
 
 <?= $el->end(); ?>
