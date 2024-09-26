@@ -1,8 +1,7 @@
 .idea
 .DS_Store
 plugin/vendor
-plugin/node_modules
+node_modules
 build/*
-plugin/composer.lock
-plugin/assets/algolia.min.js
-plugin/assets/algolia.min.js.LICENSE.txt
+plugin/assets/*.min.js
+plugin/assets/*.min.js.LICENSE.txt
