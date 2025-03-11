@@ -2,15 +2,11 @@
 
 namespace Weble\YOOAlgolia;
 
-use Algolia\AlgoliaSearch\SearchClient;
-use Algolia\AlgoliaSearch\SearchIndex;
 use YOOtheme\Config;
 use function YOOtheme\app;
 
 class AlgoliaService
 {
-    private ?SearchClient $client = null;
-    private ?SearchIndex $index = null;
 
     private string $appId;
     private string $adminKey;
@@ -37,34 +33,9 @@ class AlgoliaService
         $this->adminKey = $adminKey;
         $this->searchKey = $searchKey;
 
-        $this->client = SearchClient::create($this->appId(), $this->adminKey());
         return $this;
     }
 
-    public function setIndexName(string $indexName): self
-    {
-        $this->indexName = $indexName;
-        $this->index = $this->client()->initIndex($this->indexName());
-        return $this;
-    }
-
-    public function client(): ?SearchClient
-    {
-        if (!$this->client) {
-            $this->client = SearchClient::create($this->appId(), $this->adminKey());
-        }
-
-        return $this->client;
-    }
-
-    public function index(): ?SearchIndex
-    {
-        if (!$this->index) {
-            $this->index = $this->client()->initIndex($this->indexName());
-        }
-
-        return $this->index;
-    }
 
     public function appId(): ?string
     {
@@ -108,8 +79,4 @@ class AlgoliaService
         ];
     }
 
-    public function facets(): array
-    {
-        return $this->index()->getSettings()['attributesForFaceting'] ?? [];
-    }
 }
