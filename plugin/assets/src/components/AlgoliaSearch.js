@@ -162,7 +162,8 @@ export default {
             routing: getRouting(this),
             middlewares: [middleware],
             searchableFacets: [],
-            filters: []
+            filters: [],
+            layout: false
         };
     },
 
